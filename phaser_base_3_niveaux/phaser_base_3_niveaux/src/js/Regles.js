@@ -6,6 +6,7 @@ export default class Regles extends Phaser.Scene {
 
     preload() {
         // Charger les images ou autres ressources nécessaires pour la scène des règles
+        this.load.image("exitButton", "src/assets/Exit.png"); // Bouton de démarrage
         this.load.image('background', 'assets/sky.png'); // Assurez-vous que l'image de fond est chargée
     }
 
@@ -21,11 +22,10 @@ export default class Regles extends Phaser.Scene {
         this.add.text(50, 300, '3. Niveau 3 : Choisis le verre\ncorrespondant à la bonne réponse.', { fontSize: '27px', fill: '#ffffff' });
 
     
-        // Bouton pour revenir au menu
-        const backButton = this.add.text(300, 450, 'Retour au Menu', { fontSize: '30px', fill: '#0f0' })
-            .setInteractive()
-            .on('pointerdown', () => {
-                this.scene.start('menu'); // Retourner à la scène de menu
-            });
+     // Bouton pour revenir au menu
+     const exitButton = this.add.image(400, 500, "exitButton").setInteractive();
+     exitButton.on('pointerup', () => {
+        this.scene.start("menu"); // Retour au menu 
+        });
     }
 }
