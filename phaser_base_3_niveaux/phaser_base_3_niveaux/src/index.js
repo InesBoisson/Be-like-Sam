@@ -1,5 +1,6 @@
 // chargement des librairies
 import menu from "/src/js/menu.js"; // Importer la classe Menu
+import Regles from "/src/js/Regles.js"; // Importer la classe regles
 import selection from "/src/js/selection.js";
 import niveau1 from "/src/js/niveau1.js";
 import niveau2 from "/src/js/niveau2.js";
@@ -26,7 +27,7 @@ var config = {
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
-  scene: [menu, selection, niveau1, niveau2, niveau3]
+  scene: [menu, Regles, selection, niveau1, niveau2, niveau3]
 };
 
 // création et lancement du jeu
