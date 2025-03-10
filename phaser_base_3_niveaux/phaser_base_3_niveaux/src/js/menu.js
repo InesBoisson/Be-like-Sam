@@ -10,7 +10,7 @@ export default class Menu extends Phaser.Scene {
     // Charger les images nécessaires
     this.load.image("background", "src/assets/sky.png"); // Fond d'écran
     this.load.image("startButton", "src/assets/play.png"); // Bouton de démarrage
-    this.load.image("star", "src/assets/door1.png"); // Charger l'image de l'étoile
+    this.load.image("star", "src/assets/regles.png"); // Bouton regles
   }
 
   create() {
@@ -25,7 +25,6 @@ export default class Menu extends Phaser.Scene {
 
     // Bouton pour commencer le jeu
     const startButton = this.add.image(400, 400, "startButton").setInteractive(); // Rendre le bouton interactif
-    startButton.setScale(0.5);
     startButton.on('pointerup', () => {
       this.scene.start("niveau1"); // Démarrer la scène niveau1
     });
@@ -36,13 +35,22 @@ export default class Menu extends Phaser.Scene {
       this.scene.start('Regles'); // Naviguer vers la scène des règles
     });
 
-    // Ajouter un effet de survol pour le bouton
+    // Ajouter un effet de survol pour le bouton regles
     rulesButton.on('pointerover', () => {
       rulesButton.setScale(1.1); // Agrandir légèrement l'image
     });
 
     rulesButton.on('pointerout', () => {
       rulesButton.setScale(1); // Rétablir la taille normale
+    });
+
+    // Ajouter un effet de survol pour le bouton start
+    startButton.on('pointerover', () => {
+      startButton.setScale(1.1); // Agrandir légèrement l'image
+    });
+
+    startButton.on('pointerout', () => {
+      startButton.setScale(1); // Rétablir la taille normale
     });
   }
 }
