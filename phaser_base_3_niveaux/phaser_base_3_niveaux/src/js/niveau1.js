@@ -2,6 +2,7 @@
 export default class Niveau1 extends Phaser.Scene {
   constructor() {
       super({ key: 'niveau1' });
+      this.maxScore = 5; // Définir le score maximum
   }
 
   preload() {
@@ -87,7 +88,18 @@ export default class Niveau1 extends Phaser.Scene {
           this.player.setVelocityX(0);
           this.player.anims.play('anim_face');
       }
+      // Vérifiez si le score a atteint la valeur maximale
+      if (this.score >= this.maxScore) {
+        this.stopGame(); // Appeler la fonction pour arrêter le jeu
+      }
   }
+
+  stopGame() {
+    // Pause le jeu
+    this.scene.pause();
+    // Afficher un message ou effectuer d'autres actions
+    this.add.text(250, 250, 'Jeu terminé!', { font: '32px Arial', fill: '#ffffff' });
+}
 
   spawnObject() {
       // Créer un objet aléatoire (verre d'eau, bouteille d'alcool, verre de vin ou bouteille d'eau)
@@ -128,11 +140,19 @@ export default class Niveau1 extends Phaser.Scene {
             // Vous pouvez ajouter ici une logique pour passer au niveau suivant ou afficher un message
         }
     }
-
     collectWineGlass(player, wineGlass) {
-        // Ne rien faire lorsque le joueur touche un verre de vin
-        wineGlass.destroy(); // Détruire le verre de vin
-    }
+      // Augmenter la jauge lorsque le joueur touche une bouteille d'alcool
+      wineGlass.destroy(); // Détruire le verre de vin
+      this.score++;
+      this.scoreText.setText('Jauge : ' + this.score + '/5');
+
+      // Vérifier si la jauge est pleine
+      if (this.score >= 5) {
+          this.scoreText.setText('Jauge pleine !');
+          // Vous pouvez ajouter ici une logique pour passer au niveau suivant ou afficher un message
+      }
+  }
+
 
     collectWaterBottle(player, waterBottle) {
         // Ne rien faire lorsque le joueur touche une bouteille d'eau
