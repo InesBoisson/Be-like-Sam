@@ -9,7 +9,7 @@ export default class Menu extends Phaser.Scene {
   preload() {
     // Charger les images nécessaires
     this.load.image("background", "src/assets/sky.png"); // Fond d'écran
-    this.load.image("startButton", "src/assets/start.png"); // Bouton de démarrage
+    this.load.image("startButton", "src/assets/play.png"); // Bouton de démarrage
     this.load.image("star", "src/assets/door1.png"); // Charger l'image de l'étoile
   }
 
@@ -25,6 +25,7 @@ export default class Menu extends Phaser.Scene {
 
     // Bouton pour commencer le jeu
     const startButton = this.add.image(400, 400, "startButton").setInteractive(); // Rendre le bouton interactif
+    startButton.setScale(0.5);
     startButton.on('pointerup', () => {
       this.scene.start("niveau1"); // Démarrer la scène niveau1
     });
