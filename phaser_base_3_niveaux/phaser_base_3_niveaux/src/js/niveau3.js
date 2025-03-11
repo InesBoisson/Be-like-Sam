@@ -38,7 +38,7 @@ const BG = carteDuNiveau.createLayer(
 // chargement du calque FG1
 const FG1 = carteDuNiveau.createLayer(
   "calque_frontground1",
-  tileset,tileset2,tileset3
+  tileset1,tileset2,tileset3
 );
 
 // chargement du calque FG2
@@ -87,7 +87,7 @@ this.cameras.main.startFollow(player);
       this.player.anims.play("anim_face");
     }
     if (this.clavier.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-330);
+      this.player.setVelocityY(-200);
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
