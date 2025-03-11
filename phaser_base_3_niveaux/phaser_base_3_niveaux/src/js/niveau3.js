@@ -8,9 +8,9 @@ export default class niveau3 extends Phaser.Scene {
   }
   preload() {
 // chargement tuiles de jeu
-this.load.image("Phaser_tuilesdejeu1", "src/assets/tavern-decoNEW.png");
-this.load.image("Phaser_tuilesdejeu2", "src/assets/tavern-furnitureNEW.png");
-this.load.image("Phaser_tuilesdejeu3", "src/assets/TopDownHouse_FloorsAndWallsNEW.png");
+this.load.image("tavern-decoNEW", "src/assets/tavern-decoNEW.png");
+this.load.image("tavern-furnitureNEW", "src/assets/tavern-furnitureNEW.png");
+this.load.image("TopDownHouse_FloorsAndWallsNEW", "src/assets/TopDownHouse_FloorsAndWallsNEW.png");
 
 
 // chargement de la carte
@@ -22,28 +22,27 @@ this.load.tilemapTiledJSON("carte", "src/assets/jeu_N3.json");
 const carteDuNiveau = this.add.tilemap("carte");
 
 // Chargement des jeux de tuiles
-const tileset1 = carteDuNiveau.addTilesetImage("tuiles_de_jeu1", "Phaser_tuilesdejeu1");
-const tileset2 = carteDuNiveau.addTilesetImage("tuiles_de_jeu2", "Phaser_tuilesdejeu2");
-const tileset3 = carteDuNiveau.addTilesetImage("tuiles_de_jeu3", "Phaser_tuilesdejeu3");
+const tileset1 = carteDuNiveau.addTilesetImage("tavern-decoNEW", "tavern-decoNEW");
+const tileset2 = carteDuNiveau.addTilesetImage("tavern-furnitureNEW", "tavern-furnitureNEW");
+const tileset3 = carteDuNiveau.addTilesetImage("TopDownHouse_FloorsAndWallsNEW", "TopDownHouse_FloorsAndWallsNEW");
 
 // Tableau des tilesets pour les couches de la carte
-const tilesets = [tileset1, tileset2, tileset3];
 
 // chargement du calque BG
 const BG = carteDuNiveau.createLayer(
-  "calque_background",
+  "BG",
   tileset1,tileset2,tileset3
 );
 
 // chargement du calque FG1
 const FG1 = carteDuNiveau.createLayer(
-  "calque_frontground1",
+  "FG1",
   tileset1,tileset2,tileset3
 );
 
 // chargement du calque FG2
 const FG2 = carteDuNiveau.createLayer(
-  "calque_frontground2",
+  "FG2",
   tileset1,tileset2,tileset3
 ); 
 // définition des tuiles de plateformes qui sont solides
