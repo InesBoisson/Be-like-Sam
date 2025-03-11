@@ -87,8 +87,26 @@ this.physics.add.collider(this.player, BG);
     groupe_bieres.create(220, 300, "img_bieres");
     groupe_bieres.create(400, 300, "img_bieres");
     groupe_bieres.create(600, 300, "img_bieres");
-  }
 
+    this.add.text(400, 200, '1 : A partir de combien de grammes on ne peut plus conduire ?', {
+      font: '16px Arial',
+      fill: '#000000'
+    }).setOrigin(0.5, 0.5);  // SetOrigin(0.5, 0.5) pour centrer le texte
+    
+    this.add.text(230, 330, '0.8g/L', {
+      font: '16px Arial',
+      fill: '#000000'
+    }).setOrigin(0.5, 0.5);  // SetOrigin(0.5, 0.5) pour centrer le texte
+   
+    this.add.text(400, 330, '0.5g/L', {
+      font: '16px Arial',
+      fill: '#000000'
+    }).setOrigin(0.5, 0.5);  // SetOrigin(0.5, 0.5) pour centrer le texte
+   this.add.text(600, 330, '10g/L', {
+      font: '16px Arial',
+      fill: '#000000'
+    }).setOrigin(0.5, 0.5);  // SetOrigin(0.5, 0.5) pour centrer le texte
+  }
   update() {
     if (this.clavier.left.isDown) {
       this.player.setVelocityX(-160);
@@ -100,15 +118,11 @@ this.physics.add.collider(this.player, BG);
       this.player.setVelocityX(0);
       this.player.anims.play("anim_face");
     }
+    
+    // Saut uniquement si le personnage est au sol
     if (this.clavier.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-200);
+      this.player.setVelocityY(-200);  // Valeur négative pour aller vers le haut
     }
-
-    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
-      if (this.physics.overlap(this.player, this.porte_retour)) {
-        console.log("niveau 3 : retour vers selection");
-        this.scene.switch("selection");
+    
       }
     }
-  }
-}
