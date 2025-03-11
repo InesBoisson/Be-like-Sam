@@ -1,4 +1,4 @@
-
+var groupe_bieres; 
 export default class niveau3 extends Phaser.Scene {
   // constructeur de la classe
   constructor() {
@@ -6,6 +6,7 @@ export default class niveau3 extends Phaser.Scene {
       key: "niveau3" //  ici on précise le nom de la classe en tant qu'identifiant
     });
   }
+
   preload() {
 // chargement tuiles de jeu
 this.load.image("tavern-decoNEW", "src/assets/tavern-decoNEW.png");
@@ -15,6 +16,7 @@ this.load.image("TopDownHouse_FloorsAndWallsNEW", "src/assets/TopDownHouse_Floor
 
 // chargement de la carte
 this.load.tilemapTiledJSON("carte", "src/assets/jeu_N3.json");  
+this.load.image("img_bieres", "src/assets/alcohol_bottle.png"); 
 }
 
   create() {
@@ -58,20 +60,19 @@ this.cameras.main.setBounds(0, 0, 3200, 640);
 // ancrage de la caméra sur le joueur
 this.cameras.main.startFollow(player);  
 
-    // ajout d'un texte distintcif  du niveau
-    this.add.text(400, 100, "Vous êtes dans le niveau 3", {
-      fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-      fontSize: "22pt"
-    });
 
-    this.porte_retour = this.physics.add.staticSprite(100, 550, "img_porte3");
 
     this.player = this.physics.add.sprite(100, 450, "img_perso");
     this.player.refreshBody();
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
     this.clavier = this.input.keyboard.createCursorKeys();
-    this.physics.add.collider(this.player, this.groupe_plateformes);
+    groupe_bieres = this.physics.add.staticGroup();
+    // Création de 3 bouteilles de bière à des positions fixes
+    groupe_bieres.create(200, 300, "img_biere");
+    groupe_bieres.create(400, 450, "img_biere");
+    groupe_bieres.create(600, 500, "img_biere");
+
   }
 
   update() {
