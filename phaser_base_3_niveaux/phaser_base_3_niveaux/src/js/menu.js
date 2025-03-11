@@ -18,10 +18,10 @@ export default class Menu extends Phaser.Scene {
     this.add.image(400, 300, "background"); // Positionner le fond au centre
 
     // Ajouter un slogan
-    this.add.text(400, 100, 'Bienvenue dans le Grand Aventure!', { font: '32px Arial', fill: '#ffffff' }).setOrigin(0.5);
+    this.add.text(400, 100, 'Bienvenue dans Be like Sam!', { font: '32px Arial', fill: '#ffffff' }).setOrigin(0.5);
 
     // Ajouter un objectif
-    this.add.text(400, 200, 'Collectez des étoiles et évitez les obstacles!', { font: '24px Arial', fill: '#ffffff' }).setOrigin(0.5);
+    this.add.text(400, 200, 'Restez le plus sobre possible jusqu\'à la fin!', { font: '24px Arial', fill: '#ffffff' }).setOrigin(0.5);
 
     // Bouton pour commencer le jeu
     const startButton = this.add.image(400, 400, "startButton").setInteractive(); // Rendre le bouton interactif
