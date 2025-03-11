@@ -7,7 +7,7 @@ export default class Niveau1 extends Phaser.Scene {
 
   preload() {
       // Charger les images nécessaires
-      this.load.image('background', 'src/assets/sky.png');
+      this.load.image('background2', 'src/assets/sky.png');
       this.load.image('waterGlass', 'src/assets/water_glass.png'); // Image de verre d'eau
       this.load.image('alcoholBottle', 'src/assets/alcohol_bottle.png'); // Image de bouteille d'alcool
       this.load.image('wineGlass', 'src/assets/wine_glass.png'); // Image de verre de vin
@@ -20,7 +20,7 @@ export default class Niveau1 extends Phaser.Scene {
 
   create() {
       // Ajouter le fond
-      this.add.image(400, 300, 'background');
+      this.add.image(400, 300, 'background2');
 
       // Créer le personnage
       this.player = this.physics.add.sprite(100, 450, 'player');
