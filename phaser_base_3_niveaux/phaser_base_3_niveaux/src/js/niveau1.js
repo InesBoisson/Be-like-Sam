@@ -170,6 +170,6 @@ export default class Niveau1 extends Phaser.Scene {
     finNiveau() {
       // Logique à exécuter lorsque le temps est écoulé
       console.log("Le temps est écoulé !");
-      this.scene.start("menu"); // Retour au menu ou à une autre scène
+      this.scene.start("dialogue"); // Start the dialogue scene
   }
 }
