@@ -6,8 +6,8 @@ export default class Regles extends Phaser.Scene {
 
     preload() {
         // Charger les images ou autres ressources nécessaires pour la scène des règles
-        this.load.image("exitButton", "src/assets/Exit.png"); // Bouton de démarrage
-        this.load.image('background', 'assets/sky.png'); // Assurez-vous que l'image de fond est chargée
+        this.load.image('exitButton', 'src/assets/Exit.png'); // Bouton de démarrage
+        this.load.image('background', 'src/assets/fond_regles.png'); // Assurez-vous que l'image de fond est chargée
     }
 
     create() {
@@ -23,7 +23,7 @@ export default class Regles extends Phaser.Scene {
 
     
      // Bouton pour revenir au menu
-     const exitButton = this.add.image(400, 500, "exitButton").setInteractive();
+     const exitButton = this.add.i= mage(400, 500, "exitButton").setInteractive();
      exitButton.on('pointerup', () => {
         this.scene.start("menu"); // Retour au menu 
         });

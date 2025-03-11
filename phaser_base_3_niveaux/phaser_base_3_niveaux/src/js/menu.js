@@ -8,7 +8,7 @@ export default class Menu extends Phaser.Scene {
 
   preload() {
     // Charger les images nécessaires
-    this.load.image("background", "src/assets/sky.png"); // Fond d'écran
+    this.load.image("background", "src/assets/fond_menu.png"); // Fond d'écran
     this.load.image("startButton", "src/assets/play.png"); // Bouton de démarrage
     this.load.image("star", "src/assets/regles.png"); // Bouton regles
   }
@@ -17,11 +17,6 @@ export default class Menu extends Phaser.Scene {
     // Ajouter un fond d'écran
     this.add.image(400, 300, "background"); // Positionner le fond au centre
 
-    // Ajouter un slogan
-    this.add.text(400, 100, 'Bienvenue dans Be like Sam!', { font: '32px Arial', fill: '#ffffff' }).setOrigin(0.5);
-
-    // Ajouter un objectif
-    this.add.text(400, 200, 'Restez le plus sobre possible jusqu\'à la fin!', { font: '24px Arial', fill: '#ffffff' }).setOrigin(0.5);
 
     // Bouton pour commencer le jeu
     const startButton = this.add.image(400, 400, "startButton").setInteractive(); // Rendre le bouton interactif
