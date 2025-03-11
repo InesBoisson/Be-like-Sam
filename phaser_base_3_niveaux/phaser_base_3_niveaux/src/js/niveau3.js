@@ -31,25 +31,25 @@ const tileset3 = carteDuNiveau.addTilesetImage("TopDownHouse_FloorsAndWallsNEW",
 // chargement du calque BG
 const BG = carteDuNiveau.createLayer(
   "BG",
-  tileset1,tileset2,tileset3
+  [tileset1,tileset2,tileset3]
 );
 
 // chargement du calque FG1
-const FG1 = carteDuNiveau.createLayer(
-  "FG1",
-  tileset1,tileset2,tileset3
+const FG = carteDuNiveau.createLayer(
+  "FG",
+  [tileset1,tileset2,tileset3]
 );
 
 // chargement du calque FG2
-const FG2 = carteDuNiveau.createLayer(
-  "FG2",
-  tileset1,tileset2,tileset3
+const FG1 = carteDuNiveau.createLayer(
+  "FG1",
+  [tileset1,tileset2,tileset3]
 ); 
 // définition des tuiles de plateformes qui sont solides
 // utilisation de la propriété estSolide
-calque_background.setCollisionByProperty({ estSolide: true }); 
+BG.setCollisionByProperty({ estSolide: true }); 
 // ajout d'une collision entre le joueur et le calque plateformes
-this.physics.add.collider(player, calque_background);
+this.physics.add.collider(player, BG);
 
 // redimentionnement du monde avec les dimensions calculées via tiled
 this.physics.world.setBounds(0, 0, 3200, 640);
