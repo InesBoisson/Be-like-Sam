@@ -24,19 +24,21 @@ class Dialogue extends Phaser.Scene {
         this.personnage1 = this.add.sprite(200, 450, 'personnage1');
         this.personnage2 = this.add.sprite(600, 450, 'personnage2');
 
-        // Ajouter les bulles de dialogue
-        this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0);
-        this.bulle2 = this.add.image(600, 200, 'bulle').setOrigin(0.5, 0);
+        // Ajouter et agrandir les bulles de dialogue
+        this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0).setScale(3.5);
+        this.bulle2 = this.add.image(600, 200, 'bulle').setOrigin(0.5, 0).setScale(3.5);
 
         // Ajouter le texte de dialogue
-        this.dialogueText1 = this.add.text(150, 180, '', {
+        this.dialogueText1 = this.add.text(100, 250, '', {
             font: '24px Arial',
             fill: '#000000'
         });
-        this.dialogueText2 = this.add.text(550, 180, '', {
+        this.dialogueText2 = this.add.text(450, 250, '', {
             font: '24px Arial',
             fill: '#000000'
         });
+
+        
 
         // Phrases de dialogue
         this.dialogueLines = [
