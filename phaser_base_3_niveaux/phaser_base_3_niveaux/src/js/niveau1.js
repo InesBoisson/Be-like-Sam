@@ -74,6 +74,14 @@ export default class Niveau1 extends Phaser.Scene {
           frames: [{ key: "player", frame: 4 }],
           frameRate: 20
       });
+
+      // Démarrer le timer de 45 secondes
+      this.time.addEvent({
+        delay: 45000, // 45 secondes en millisecondes
+        callback: this.finNiveau,
+        callbackScope: this,
+        loop: false // Ne pas répéter
+    });
   }
 
   update() {
@@ -158,4 +166,10 @@ export default class Niveau1 extends Phaser.Scene {
         // Ne rien faire lorsque le joueur touche une bouteille d'eau
         waterBottle.destroy(); // Détruire la bouteille d'eau
     }
+
+    finNiveau() {
+      // Logique à exécuter lorsque le temps est écoulé
+      console.log("Le temps est écoulé !");
+      this.scene.start("menu"); // Retour au menu ou à une autre scène
+  }
 }
