@@ -5,6 +5,8 @@ import selection from "/src/js/selection.js";
 import niveau1 from "/src/js/niveau1.js";
 import niveau2 from "/src/js/niveau2.js";
 import niveau3 from "/src/js/niveau3.js";
+import Dialogue from "/src/js/Dialogue.js"; // Vérifie bien ce chemin
+
 
 
 // configuration générale du jeu
@@ -28,7 +30,7 @@ var config = {
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
-  scene: [menu, Regles, selection, niveau1, niveau2, niveau3]
+  scene: [menu, Regles, selection, niveau1, niveau2, niveau3, Dialogue]
 };
 
 // création et lancement du jeu

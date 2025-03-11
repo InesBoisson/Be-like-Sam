@@ -109,27 +109,26 @@ export default class Niveau1 extends Phaser.Scene {
     this.add.text(250, 250, 'Jeu terminé!', { font: '32px Arial', fill: '#ffffff' });
 }
 
-  spawnObject() {
-      // Créer un objet aléatoire (verre d'eau, bouteille d'alcool, verre de vin ou bouteille d'eau)
-      const x = Phaser.Math.Between(0, 800); // Position aléatoire sur l'axe X
-      const objectType = Phaser.Math.Between(0, 3); // 0 pour verre d'eau, 1 pour bouteille d'alcool, 2 pour verre de vin, 3 pour bouteille d'eau
+spawnObject() {
+  const x = Phaser.Math.Between(0, 800); // Position aléatoire sur X
+  const objectType = Phaser.Math.Between(0, 3); // 0 à 3 pour choisir un objet
 
-      if (objectType === 0) {
-          const waterGlass = this.waterGlasses.create(x, 0, 'waterGlass');
-          waterGlass.set
-          waterGlass.setVelocityY(10); // Vitesse de chute
-        } else if (objectType === 1) {
-            const alcoholBottle = this.alcoholBottles.create(x, 0, 'alcoholBottle');
-            alcoholBottle.setVelocityY(10); // Vitesse de chute
-        } else if (objectType === 2) {
-            const wineGlass = this.wineGlasses.create(x, 0, 'wineGlass');
-            wineGlass.setVelocityY(10); // Vitesse de chute
-            wineGlass.setScale(0.03);
-        } else {
-            const waterBottle = this.waterBottles.create(x, 0, 'waterBottle');
-            waterBottle.setVelocityY(10); // Vitesse de chute
-        }
-    }
+  if (objectType === 0) {
+      const waterGlass = this.waterGlasses.create(x, 0, 'waterGlass');
+      waterGlass.setVelocityY(10); // Vitesse de chute
+  } else if (objectType === 1) {
+      const alcoholBottle = this.alcoholBottles.create(x, 0, 'alcoholBottle');
+      alcoholBottle.setVelocityY(10);
+  } else if (objectType === 2) {
+      const wineGlass = this.wineGlasses.create(x, 0, 'wineGlass');
+      wineGlass.setVelocityY(10);
+      wineGlass.setScale(0.03);
+  } else {
+      const waterBottle = this.waterBottles.create(x, 0, 'waterBottle');
+      waterBottle.setVelocityY(10);
+  }
+}
+
 
     collectWaterGlass(player, waterGlass) {
         // Ne rien faire lorsque le joueur touche un verre d'eau
@@ -168,8 +167,8 @@ export default class Niveau1 extends Phaser.Scene {
     }
 
     finNiveau() {
-      // Logique à exécuter lorsque le temps est écoulé
       console.log("Le temps est écoulé !");
-      this.scene.start('Dialogue'); // Start the dialogue scene
+      this.physics.pause(); // Arrêter la physique pour éviter des bugs
+      this.scene.start('Dialogue'); // Lancer la scène de Dialogue
   }
 }

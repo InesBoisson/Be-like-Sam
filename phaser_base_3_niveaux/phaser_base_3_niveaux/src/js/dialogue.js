@@ -1,4 +1,8 @@
+// src/js/Dialogue.js
+console.log("✅ La scène Dialogue est bien chargée !");
+
 class Dialogue extends Phaser.Scene {
+    
     constructor() {
         super({ key: 'Dialogue' });
     }
@@ -11,16 +15,20 @@ class Dialogue extends Phaser.Scene {
     }
 
     create() {
-        this.player = this.physics.add.sprite(100, 450, 'personnage1');
-        this.player = this.physics.add.sprite(100, 450, 'personnage2');
+        this.personnage1 = this.add.sprite(200, 450, 'personnage1');
+        this.personnage2 = this.add.sprite(400, 450, 'personnage2');
+        this.add.image(400, 300, 'background4');
+
         this.bulle = this.add.image(400, 200, 'bulle');
         this.dialogueText = this.add.text(350, 180, 'Bonjour ! Comment ça va ?', {
             font: '24px Arial',
-            fill: '#000'
+            fill: '#ffffff'
         });
 
         this.input.on('pointerdown', () => {
             this.dialogueText.setText('Ça va bien, merci ! Et toi ?');
         });
     }
+    
 }
+export default Dialogue;
