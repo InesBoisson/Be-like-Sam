@@ -8,34 +8,53 @@ export default class niveau2 extends Phaser.Scene {
   }
   preload() {
     // chargement tuiles de jeu
-this.load.image("3e4aa70777418d958610a424634bc2e5", "src/assets/3e4aa70777418d958610a424634bc2e5.png");
-this.load.image("alcohol_bottle","src/assets/alcohol_bottle.png");
-this.load.image("interiors_demoNew","src/assets/interiors_demoNew.png");
+this.load.image("Background", "src/assets/Background.png");
+this.load.image("Tuile1","src/assets/Tile_02.png");
+this.load.image("Tuile2","src/assets/Tile_52.png");
+this.load.image("Details","src/assets/WorldSheetNew.png");
 
 
 // chargement de la carte
-this.load.tilemapTiledJSON("carte", "src/assets/CoffeeShop.json"); 
+this.load.tilemapTiledJSON("carte2", "src/assets/JeuN2.json"); 
+this.load.spritesheet("player", "src/assets/perso1.png", {
+  frameWidth: 75,
+  frameHeight: 110
+});
   }
+  
 
   create() {
 // chargement de la carte
-const carteDuNiveau = this.add.tilemap("carte");
+const carteDuNiveau = this.add.tilemap("carte2");
 
 // chargement du jeu de tuiles
-const tileset1 = carteDuNiveau.addTilesetImage("alcohol_bottle","alcohol_bottle");  
-const tileset2 = carteDuNiveau.addTilesetImage("3e4aa70777418d958610a424634bc2e5","3e4aa70777418d958610a424634bc2e5");
+const tileset1 = carteDuNiveau.addTilesetImage("Background","Background");  
+const tileset2 = carteDuNiveau.addTilesetImage("Tuile1","Tuile1");
+const tileset3 = carteDuNiveau.addTilesetImage("Tuile2","Tuile2");
+const tileset4 = carteDuNiveau.addTilesetImage("Details","Details");
+
+
 // chargement du calque bar
-const bar = carteDuNiveau.createLayer(
-  "bar",
-  tileset2
+const BackgroundArbres = carteDuNiveau.createLayer(
+  "Background",[tileset1, tileset2]
 );
 
 // chargement du calque pinte
-const pinte = carteDuNiveau.createLayer(
-  "pinte",
-  tileset1
+const Plateformes = carteDuNiveau.createLayer(
+  "Plateformes", [tileset2, tileset3, Tileset4]
 );  
-    this.player = this.physics.add.sprite(100, 450, "img_perso");
+
+Plateformes.setCollisionByProperty({ estSolide: true }); 
+
+// redimentionnement du monde avec les dimensions calculées via tiled
+this.physics.world.setBounds(0, 0, 3200, 640);
+//  ajout du champs de la caméra de taille identique à celle du monde
+this.cameras.main.setBounds(0, 0, 3200, 640);
+// ancrage de la caméra sur le joueur
+this.cameras.main.startFollow(player);  
+
+
+    this.player = this.physics.add.sprite(100, 450, "player");
     this.player.refreshBody();
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
