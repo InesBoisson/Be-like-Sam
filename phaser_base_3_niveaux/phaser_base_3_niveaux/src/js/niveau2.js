@@ -12,7 +12,7 @@ export default class niveau2 extends Phaser.Scene {
     this.load.image("Tile_02", "src/assets/Tile_02.png");
     this.load.image("Tile_52", "src/assets/Tile_52.png");
     this.load.image("WorldSheetNew", "src/assets/WorldSheetNew.png");
-    this.load.image("acohol_bottle", "src/assets/alcohol_bottle.png")
+    this.load.image("bouteille", "src/assets/alcohol_bottle.png")
 
 
     // chargement de la carte
@@ -118,9 +118,9 @@ export default class niveau2 extends Phaser.Scene {
         let x = Phaser.Math.Between(100, 1200); // Position X aléatoire
         let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
 
-        let alcohol_bottle = this.groupe_bouteilles.create(x, y, "alcohol_bottle");
-        alcohol_bottle.setImmovable(true); // La bouteille reste fixe
-        alcohol_bottle.body.allowGravity = false; // Pas d'effet de gravité
+        let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
+        bouteille.setImmovable(true); // La bouteille reste fixe
+        
     }
   // Ajout des collisions entre les bouteilles et les plateformes
   this.physics.add.collider(this.groupe_bouteilles, Plateformes);
@@ -168,7 +168,7 @@ afficherMessageAmi(player, perso3) {
   // Vérifie si le message existe déjà pour éviter les doublons
   if (!this.message) {
     
-      this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé ton ami!", {
+      this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
           fontSize: '32px',
           fill: '#fff',
           fontFamily: "Arial",
@@ -181,7 +181,7 @@ afficherMessageAmi(player, perso3) {
                 this.message = null;
             }
             // Retour au menu après que le message a disparu
-            this.scene.start("menu"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
+            this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
         });
     } 
   }

@@ -81,7 +81,7 @@ class Dialogue extends Phaser.Scene {
 
         const bouton_n2 = this.add.image(400, 400, "bouton_n2").setInteractive().setScale(0.4); // Rendre le bouton interactif
         bouton_n2.on('pointerup', () => {
-            this.scene.start("menu"); // Démarrer la scène niveau2
+            this.scene.start("niveau2"); // Démarrer la scène niveau2
         });
 
 
