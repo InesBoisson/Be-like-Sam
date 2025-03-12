@@ -3,23 +3,38 @@ export default class niveau2 extends Phaser.Scene {
   constructor() {
     super({
       key: "niveau2" //  ici on précise le nom de la classe en tant qu'identifiant
+      
     });
   }
-  preload() {}
+  preload() {
+    // chargement tuiles de jeu
+this.load.image("3e4aa70777418d958610a424634bc2e5", "src/assets/3e4aa70777418d958610a424634bc2e5.png");
+this.load.image("alcohol_bottle","src/assets/alcohol_bottle.png");
+this.load.image("interiors_demoNew","src/assets/interiors_demoNew.png");
+
+
+// chargement de la carte
+this.load.tilemapTiledJSON("carte", "src/assets/CoffeeShop.json"); 
+  }
 
   create() {
-    this.add.image(400, 300, "img_ciel");
-    this.groupe_plateformes = this.physics.add.staticGroup();
-    this.groupe_plateformes.create(200, 584, "img_plateforme");
-    this.groupe_plateformes.create(600, 584, "img_plateforme");
-    // ajout d'un texte distintcif  du niveau
-    this.add.text(400, 100, "Vous êtes dans le niveau 2", {
-      fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-      fontSize: "22pt"
-    });
+// chargement de la carte
+const carteDuNiveau = this.add.tilemap("carte");
 
-    this.porte_retour = this.physics.add.staticSprite(100, 550, "img_porte2");
+// chargement du jeu de tuiles
+const tileset1 = carteDuNiveau.addTilesetImage("alcohol_bottle","alcohol_bottle");  
+const tileset2 = carteDuNiveau.addTilesetImage("3e4aa70777418d958610a424634bc2e5","3e4aa70777418d958610a424634bc2e5");
+// chargement du calque bar
+const bar = carteDuNiveau.createLayer(
+  "bar",
+  tileset2
+);
 
+// chargement du calque pinte
+const pinte = carteDuNiveau.createLayer(
+  "pinte",
+  tileset1
+);  
     this.player = this.physics.add.sprite(100, 450, "img_perso");
     this.player.refreshBody();
     this.player.setBounce(0.2);
