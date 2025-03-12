@@ -5,6 +5,7 @@ export default class niveau3 extends Phaser.Scene {
     super({
       key: "niveau3" //  ici on précise le nom de la classe en tant qu'identifiant
     });
+    this.score = 0; // Initialisation du score à 0
   }
 
   preload() {
@@ -26,7 +27,7 @@ this.load.spritesheet("img_perso", "src/assets/dude.png", {
 // Fonction pour afficher le message de fin de jeu
 afficherMessageFinDeJeu() {
   // Crée un texte avec un message de félicitations
-  const messageFin = this.add.text(400, 230, "Bravo, vous avez fini le jeu !\n N'oubliez pas, Sam c'est celui qui conduit \n et celui qui ne boit pas !", {
+  const messageFin = this.add.text(400, 230, "Bravo, vous avez fini le jeu !\n N'oubliez pas, Sam c'est celui qui conduit \n et celui qui ne boit pas !\nVotre score final est: ${this.score}", {
     font: "20px Arial",
     fill: "#000000"
   }).setOrigin(0.5, 0.5);
@@ -48,7 +49,15 @@ afficherQuestion3() {
 // Fonction appelée lorsqu'on répond à la question 3
 repondreQuestion3(biere) {
   console.log("Réponse sélectionnée question 3:", biere.reponse);
+// Vérifier si la réponse est correcte
+if (biere.reponse === "1800 personnes") {
+  this.score += 20; // Bonne réponse, on ajoute 20 points
+} else {
+  this.score -= 10; // Mauvaise réponse, on enlève 10 points
+}
 
+// Mettre à jour l'affichage du score
+this.scoreText.setText('Score: ' + this.score);
   // Masquer ou détruire les éléments de la question 3
   this.elementsQuestion3.forEach(element => element.setVisible(false)); // Masque les réponses de la question 3
   this.text_q3.setVisible(false); // Masque le texte de la question 3
@@ -73,6 +82,15 @@ afficherQuestion2() {
 // Fonction appelée lorsqu'on répond à la question 2
 repondreQuestion2(biere) {
   console.log("Réponse sélectionnée question 2:", biere.reponse);
+// Vérifier si la réponse est correcte
+if (biere.reponse === "0,2g/L") {
+  this.score += 20; // Bonne réponse, on ajoute 20 points
+} else {
+  this.score -= 10; // Mauvaise réponse, on enlève 10 points
+}
+
+// Mettre à jour l'affichage du score
+this.scoreText.setText('Score: ' + this.score);
 
   // Masquer ou détruire les éléments de la question 2
   this.elementsQuestion2.forEach(element => element.setVisible(false)); // Masque les réponses de la question 2
@@ -86,7 +104,15 @@ repondreQuestion2(biere) {
 // Fonction appelée lorsqu'on répond à la question 1
 repondreQuestion1(biere) {
   console.log("Réponse sélectionnée question 1:", biere.reponse);
+// Vérifier si la réponse est correcte
+if (biere.reponse === "0.5g/L") {
+  this.score += 20; // Bonne réponse, on ajoute 20 points
+} else {
+  this.score -= 10; // Mauvaise réponse, on enlève 10 points
+}
 
+// Mettre à jour l'affichage du score
+this.scoreText.setText('Score: ' + this.score);
   // Masquer ou détruire les éléments de la question 1
   this.elementsQuestion1.forEach(element => element.setVisible(false)); // Rend invisible les éléments de la question 1
 
@@ -105,6 +131,13 @@ repondreQuestion1(biere) {
 
 
 create() {
+
+  // Affichage du score
+  this.scoreText = this.add.text(16, 16, 'Score: 0', {
+    font: '16px Arial',
+    fill: '#fff'
+  });
+
   // Chargement de la carte
   const carteDuNiveau = this.make.tilemap({ key: "carte" });
 
