@@ -25,15 +25,15 @@ class Dialogue extends Phaser.Scene {
         this.personnage2 = this.add.sprite(600, 450, 'personnage2');
 
         // Ajouter et agrandir les bulles de dialogue
-        this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0).setScale(3.5);
-        this.bulle2 = this.add.image(600, 200, 'bulle').setOrigin(0.5, 0).setScale(3.5);
+        this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0).setScale(3.6);
+        this.bulle2 = this.add.image(600, 200, 'bulle').setOrigin(0.5, 0).setScale(3.6);
 
         // Ajouter le texte de dialogue
         this.dialogueText1 = this.add.text(100, 250, '', {
             font: '24px Arial',
             fill: '#000000'
         });
-        this.dialogueText2 = this.add.text(450, 250, '', {
+        this.dialogueText2 = this.add.text(500, 250, '', {
             font: '24px Arial',
             fill: '#000000'
         });
@@ -42,12 +42,12 @@ class Dialogue extends Phaser.Scene {
 
         // Phrases de dialogue
         this.dialogueLines = [
-            { character: 1, text: 'Bonjour ! Comment ça va ?' },
-            { character: 2, text: 'Ça va bien, merci ! Et toi ?' },
-            { character: 1, text: 'Je suis content de l’entendre.' },
-            { character: 2, text: 'Merci ! Quoi de neuf ?' },
-            { character: 1, text: 'Pas grand-chose, juste en train de profiter de la journée.' },
-            { character: 2, text: 'C’est super !' }
+            { character: 1, text: 'Allez, je rentre, \nj\'ai juste bu deux \nverres, c\'est rien !' },
+            { character: 2, text: 'Tu sais qu\'à partir \nde 0,5 g/L d\'alcool \ndans le sang, c\'est \ninterdit de conduire ?' },
+            { character: 1, text: 'Oui, mais deux \nverres, ça va…' },
+            { character: 2, text: 'Ça dépend ! \nUn verre standard, \nc\'est environ 0,2 g/L' },
+            { character: 1, text: 'Ok, la prochaine \nfois je prendrais \nun Sam !' },
+            { character: 2, text: 'Passe par \nla porte pour \naller chercher Bob!' },
         ];
 
         this.currentLineIndex = 0; // Index de la ligne de dialogue actuelle
@@ -55,8 +55,8 @@ class Dialogue extends Phaser.Scene {
         // Afficher la première ligne de dialogue
         this.displayDialogue();
 
-        // Gestion de l'interaction pour changer le texte
-        this.input.on('pointerdown', () => {
+        // Gestion de l'interaction pour changer le texte avec la touche Espace
+        this.input.keyboard.on('keydown-SPACE', () => {
             this.currentLineIndex++;
             if (this.currentLineIndex < this.dialogueLines.length) {
                 this.displayDialogue();

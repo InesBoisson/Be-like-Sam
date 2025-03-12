@@ -2,7 +2,7 @@
 export default class Niveau1 extends Phaser.Scene {
   constructor() {
     super({ key: 'niveau1' });
-    this.maxScore = 5; // Définir le score maximum
+    this.maxScore = 4; // Définir le score maximum
     this.score = 0; // Initialisation correcte du score
 
   }
@@ -86,7 +86,7 @@ export default class Niveau1 extends Phaser.Scene {
 
     // Démarrer le timer de 45 secondes
     this.time.addEvent({
-      delay: 450, // 45 secondes en millisecondes
+      delay: 25000, // 45 secondes en millisecondes
       callback: this.finNiveau,
       callbackScope: this,
       loop: false // Ne pas répéter
@@ -117,7 +117,7 @@ export default class Niveau1 extends Phaser.Scene {
     // Pause le jeu
     this.scene.pause();
     // Afficher un message ou effectuer d'autres actions
-    this.add.text(250, 250, 'Jeu terminé!', { font: '32px Arial', fill: '#ffffff' });
+    this.add.text(250, 250, 'Vous avez perdu!\n désaoulez et réessayez :)', { font: '32px Arial', fill: '#ffffff' });
   }
 
   spawnObject() {
@@ -130,13 +130,15 @@ export default class Niveau1 extends Phaser.Scene {
     } else if (objectType === 1) {
       const alcoholBottle = this.alcoholBottles.create(x, 0, 'alcoholBottle');
       alcoholBottle.setVelocityY(10);
+      alcoholBottle.setScale(2)
     } else if (objectType === 2) {
       const wineGlass = this.wineGlasses.create(x, 0, 'wineGlass');
       wineGlass.setVelocityY(10);
-      wineGlass.setScale(0.03);
+      wineGlass.setScale(0.07);
     } else {
       const waterBottle = this.waterBottles.create(x, 0, 'waterBottle');
       waterBottle.setVelocityY(10);
+      waterBottle.setScale(1.2)
     }
   }
 
@@ -147,6 +149,7 @@ export default class Niveau1 extends Phaser.Scene {
   }
 
   collectAlcoholBottle(player, alcoholBottle) {
+    alcoholBottle.destroy(); // Détruire la bière
     if (this.score < this.maxScore) {
       this.score++;
       this.framePV+=2;
