@@ -6,25 +6,65 @@ class Dialogue extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('personnage1', 'src/assets/door1.png');
-        this.load.image('personnage2', 'src/assets/door2.png');
+        // chargement de la carte
+        // Charger les images des tilesets
+        this.load.image("3e4aa70777418d958610a424634bc2e5", "src/assets/3e4aa70777418d958610a424634bc2e5.png"); // Assurez-vous que l'extension est correcte
+        this.load.image("interiors_demoNew", "src/assets/interiors_demoNew.png");
+        this.load.image("alcohol_bottle1", "src/assets/alcohol_bottle1.png"); // Assurez-vous que ce fichier existe
+
+        // Charger la carte
+        this.load.tilemapTiledJSON("CoffeeShop", "src/assets/CoffeeShop.json");
+        this.load.spritesheet("personnage1", "src/assets/perso1.png", {
+            frameWidth: 75,
+            frameHeight: 110
+        });
+        this.load.spritesheet("personnage2", "src/assets/perso2.png", {
+            frameWidth: 75,
+            frameHeight: 110
+        });
         this.load.image('bulle', 'src/assets/bulle.png');
         this.load.image('bulle2', 'src/assets/bulle2.png');
-        this.load.image("background4", "src/assets/sky.png");
-        console.log("🔍 Chargement des assets...");
     }
 
     create() {
-        // Ajouter le fond
-        this.add.image(400, 300, 'background4');
+        const carteDuNiveau = this.add.tilemap("CoffeeShop");
+
+
+        // Chargement des tilesets (VÉRIFIE bien les noms avec Tiled)
+        const tilesetFond = carteDuNiveau.addTilesetImage("3e4aa70777418d958610a424634bc2e5", "3e4aa70777418d958610a424634bc2e5");
+        const tilesetObjets = carteDuNiveau.addTilesetImage("interiors_demoNew", "interiors_demoNew");
+        const tilesPinte = carteDuNiveau.addTilesetImage("alcohol_bottle1", "alcohol_bottle1");
+
+        // Chargement des calques (VÉRIFIE les noms des calques dans Tiled)
+        const Bar = carteDuNiveau.createLayer("Bar", [tilesetFond, tilesetObjets]);
+        const Pinte = carteDuNiveau.createLayer("Pinte", tilesPinte);
+
+
+        Bar.setCollisionByProperty({ estSolide: true });
+
 
         // Ajouter les personnages
-        this.personnage1 = this.add.sprite(200, 450, 'personnage1');
-        this.personnage2 = this.add.sprite(600, 450, 'personnage2');
+        // Créer le personnage
+        this.personnage1 = this.physics.add.sprite(100, 350, 'personnage1');
+        this.personnage1.setBounce(0.2);
+        this.personnage1.setCollideWorldBounds(true); // Empêche le joueur de sortir de l'écran
+
+        this.personnage2 = this.physics.add.sprite(650, 350, 'personnage2');
+        this.personnage2.setBounce(0.2);
+        this.personnage2.setCollideWorldBounds(true); // Empêche le joueur de sortir de l'écran
+
+        this.physics.add.collider(this.personnage1, Bar);
+        this.physics.add.collider(this.personnage2, Bar);
+
 
         // Ajouter et agrandir les bulles de dialogue
         this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0).setScale(3.6);
         this.bulle2 = this.add.image(600, 200, 'bulle2').setOrigin(0.5, 0).setScale(3.6);
+
+        // Gérer les touches du clavier
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+
 
         // Ajouter le texte de dialogue
         this.dialogueText1 = this.add.text(100, 250, '', {
@@ -36,7 +76,7 @@ class Dialogue extends Phaser.Scene {
             fill: '#000000'
         });
 
-        
+
 
         // Phrases de dialogue
         this.dialogueLines = [
@@ -65,6 +105,9 @@ class Dialogue extends Phaser.Scene {
         });
     }
 
+
+  
+
     displayDialogue() {
         const line = this.dialogueLines[this.currentLineIndex];
         if (line.character === 1) {
@@ -75,6 +118,8 @@ class Dialogue extends Phaser.Scene {
             this.dialogueText1.setText(''); // Effacer le texte du personnage 1
         }
     }
+
+    
 }
 
 export default Dialogue;

@@ -111,7 +111,7 @@ export default class Niveau1 extends Phaser.Scene {
 
     // Démarrer le timer de 45 secondes
     this.time.addEvent({
-      delay: 25000, // 45 secondes en millisecondes
+      delay: 2500, // 45 secondes en millisecondes
       callback: this.finNiveau,
       callbackScope: this,
       loop: false // Ne pas répéter
