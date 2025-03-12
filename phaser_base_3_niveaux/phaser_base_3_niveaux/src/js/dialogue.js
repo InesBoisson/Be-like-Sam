@@ -9,11 +9,9 @@ class Dialogue extends Phaser.Scene {
         this.load.image('personnage1', 'src/assets/door1.png');
         this.load.image('personnage2', 'src/assets/door2.png');
         this.load.image('bulle', 'src/assets/bulle.png');
+        this.load.image('bulle2', 'src/assets/bulle2.png');
         this.load.image("background4", "src/assets/sky.png");
         console.log("🔍 Chargement des assets...");
-        this.load.on("complete", () => {
-            console.log("✅ Tous les assets sont chargés !");
-        });
     }
 
     create() {
@@ -26,7 +24,7 @@ class Dialogue extends Phaser.Scene {
 
         // Ajouter et agrandir les bulles de dialogue
         this.bulle1 = this.add.image(200, 200, 'bulle').setOrigin(0.5, 0).setScale(3.6);
-        this.bulle2 = this.add.image(600, 200, 'bulle').setOrigin(0.5, 0).setScale(3.6);
+        this.bulle2 = this.add.image(600, 200, 'bulle2').setOrigin(0.5, 0).setScale(3.6);
 
         // Ajouter le texte de dialogue
         this.dialogueText1 = this.add.text(100, 250, '', {
