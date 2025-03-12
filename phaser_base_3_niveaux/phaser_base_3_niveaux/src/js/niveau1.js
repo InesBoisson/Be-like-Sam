@@ -23,9 +23,9 @@ export default class Niveau1 extends Phaser.Scene {
     // Charger la carte
     this.load.tilemapTiledJSON("CoffeeShop", "src/assets/CoffeeShop.json");
 
-    this.load.spritesheet("player", "src/assets/dude.png", {
-      frameWidth: 32,
-      frameHeight: 48
+    this.load.spritesheet("player", "src/assets/perso1.png", {
+      frameWidth: 75,
+      frameHeight: 110
     });
     this.load.spritesheet("jauge", "src/assets/jauge.png", {
       frameWidth: 486,
@@ -91,21 +91,21 @@ export default class Niveau1 extends Phaser.Scene {
     // Créer les animations
     this.anims.create({
       key: "anim_tourne_gauche",
-      frames: this.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers("player", { start: 2, end: 3 }),
       frameRate: 10,
       repeat: -1
     });
 
     this.anims.create({
       key: "anim_tourne_droite",
-      frames: this.anims.generateFrameNumbers("player", { start: 5, end: 8 }),
+      frames: this.anims.generateFrameNumbers("player", { start: 4, end: 5 }),
       frameRate: 10,
       repeat: -1
     });
 
     this.anims.create({
       key: "anim_face",
-      frames: [{ key: "player", frame: 4 }],
+      frames: [{ key: "player", frame: 0 }],
       frameRate: 20
     });
 
