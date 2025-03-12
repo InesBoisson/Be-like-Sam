@@ -24,12 +24,13 @@ class Dialogue extends Phaser.Scene {
         });
         this.load.image('bulle', 'src/assets/bulle.png');
         this.load.image('bulle2', 'src/assets/bulle2.png');
+        this.load.image("bouton_n2", "src/assets/porten2.png"); // Bouton de passage au n2
     }
 
     create() {
         const carteDuNiveau = this.add.tilemap("CoffeeShop");
 
-
+        
         // Chargement des tilesets (VÉRIFIE bien les noms avec Tiled)
         const tilesetFond = carteDuNiveau.addTilesetImage("3e4aa70777418d958610a424634bc2e5", "3e4aa70777418d958610a424634bc2e5");
         const tilesetObjets = carteDuNiveau.addTilesetImage("interiors_demoNew", "interiors_demoNew");
@@ -76,6 +77,14 @@ class Dialogue extends Phaser.Scene {
             fill: '#000000'
         });
 
+        // Bouton pour commencer le jeu
+
+        const bouton_n2 = this.add.image(400, 400, "bouton_n2").setInteractive().setScale(0.4); // Rendre le bouton interactif
+        bouton_n2.on('pointerup', () => {
+            this.scene.start("menu"); // Démarrer la scène niveau2
+        });
+
+
 
 
         // Phrases de dialogue
@@ -85,7 +94,7 @@ class Dialogue extends Phaser.Scene {
             { character: 1, text: 'Oui, mais deux \nverres, ça va…' },
             { character: 2, text: 'Ça dépend ! \nUn verre standard, \nc\'est environ 0,2 g/L' },
             { character: 1, text: 'Ok, la prochaine \nfois je prendrais \nun Sam !' },
-            { character: 2, text: 'Passe par \nla porte pour \naller chercher Bob!' },
+            { character: 2, text: 'Clique sur \nla porte pour \naller chercher Bob!' },
         ];
 
         this.currentLineIndex = 0; // Index de la ligne de dialogue actuelle
@@ -102,11 +111,20 @@ class Dialogue extends Phaser.Scene {
                 this.dialogueText1.setText(''); // Effacer le texte à la fin
                 this.dialogueText2.setText('');
             }
+
+        });
+         // Ajouter un effet de survol pour le bouton niv 2
+         bouton_n2.on('pointerover', () => {
+            bouton_n2.setScale(0.6); // Agrandir légèrement l'image
+        });
+
+        bouton_n2.on('pointerout', () => {
+            bouton_n2.setScale(0.4); // Rétablir la taille normale
         });
     }
 
 
-  
+
 
     displayDialogue() {
         const line = this.dialogueLines[this.currentLineIndex];
@@ -119,7 +137,7 @@ class Dialogue extends Phaser.Scene {
         }
     }
 
-    
+
 }
 
 export default Dialogue;

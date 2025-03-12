@@ -17,9 +17,9 @@ export default class Regles extends Phaser.Scene {
         this.add.text(400, 50, 'Règles du Jeu', { fontSize: '35px', fill: '#fa0a16' }).setOrigin(0.5);
 
         // Ajouter les règles, en les centrant et en les espaçant
-        this.add.text(50, 150, '1. Niveau 1 : évitez les bouteilles d\'alcool\npour rester sobre!', { fontSize: '27px', fill: '#fa0a16' });
+        this.add.text(50, 150, '1. Niveau 1 : évitez les bouteilles d\'alcool pendant 25 sec \npour rester sobre!', { fontSize: '27px', fill: '#fa0a16' });
         this.add.text(50, 250, '2. Niveau 2 : Trouve Bob qui a abusé de la\nboisson et s\'est perdu dans MTP.', { fontSize: '27px', fill: '#fa0a16' });
-        this.add.text(50, 350, '3. Niveau 3 : Choisis le verre\ncorrespondant à la bonne réponse.', { fontSize: '27px', fill: '#fa0a16' });
+        this.add.text(50, 350, '3. Niveau 3 : Clique sur le verre\ncorrespondant à la bonne réponse.', { fontSize: '27px', fill: '#fa0a16' });
 
     
      // Bouton pour revenir au menu
@@ -27,5 +27,14 @@ export default class Regles extends Phaser.Scene {
      exitButton.on('pointerup', () => {
         this.scene.start("menu"); // Retour au menu 
         });
+
+    // Ajouter un effet de survol pour le bouton exit
+    exitButton.on('pointerover', () => {
+        exitButton.setScale(1.1); // Agrandir légèrement l'image
+      });
+  
+      exitButton.on('pointerout', () => {
+        exitButton.setScale(1); // Rétablir la taille normale
+      });
     }
 }
