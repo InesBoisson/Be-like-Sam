@@ -15,7 +15,7 @@ this.load.image("tavern-furnitureNEW", "src/assets/tavern-furnitureNEW.png");
 this.load.image("TopDownHouse_FloorsAndWallsNEW", "src/assets/TopDownHouse_FloorsAndWallsNEW.png");
 // chargement de la carte
 this.load.tilemapTiledJSON("carte", "src/assets/jeu_N3.json");
-this.add.image(800, 600, "carte"); 
+this.add.image(800, 600, "carte").setDepth(0); 
 //chargement image biere
 this.load.image("img_bieres", "src/assets/alcohol_bottle.png");
 this.load.spritesheet("img_perso", "src/assets/dude.png", {
@@ -27,13 +27,15 @@ this.load.spritesheet("img_perso", "src/assets/dude.png", {
 // Fonction pour afficher le message de fin de jeu
 afficherMessageFinDeJeu() {
   // Crée un texte avec un message de félicitations
-  const messageFin = this.add.text(400, 230, "Bravo, vous avez fini le jeu !\n N'oubliez pas, Sam c'est celui qui conduit \n et celui qui ne boit pas !\nVotre score final est: ${this.score}", {
+  const messageFin = this.add.text(400, 230, `Bravo, vous avez fini le jeu !\n N'oubliez pas, Sam c'est celui qui conduit \n et celui qui ne boit pas !\nVotre score final est: ${this.score}`, {
     font: "20px Arial",
     fill: "#000000"
   }).setOrigin(0.5, 0.5);
-
-  // Vous pouvez aussi ajouter un effet sonore ou de transition ici si nécessaire.
-}
+// Attendre 3 secondes, puis revenir au menu
+this.time.delayedCall(5000, () => {
+  this.scene.start('menu'); // Remplace 'MenuScene' par le nom réel de ta scène de menu
+});
+} o
 
 // Fonction pour afficher la question 3
 afficherQuestion3() {
@@ -49,15 +51,26 @@ afficherQuestion3() {
 // Fonction appelée lorsqu'on répond à la question 3
 repondreQuestion3(biere) {
   console.log("Réponse sélectionnée question 3:", biere.reponse);
-// Vérifier si la réponse est correcte
-if (biere.reponse === "1800 personnes") {
-  this.score += 20; // Bonne réponse, on ajoute 20 points
-} else {
-  this.score -= 10; // Mauvaise réponse, on enlève 10 points
-}
-
+let message = "";
+  if (biere.reponse === "1800 personnes") {
+    this.score += 20;
+    message = "✅ Bonne réponse ! Bien joué !";
+  } else {
+    this.score -= 10;
+    message = "❌ Mauvaise réponse... Essaie encore !";
+  }
 // Mettre à jour l'affichage du score
 this.scoreText.setText('Score: ' + this.score);
+const messageText = this.add.text(400, 350, message, {
+  font: "18px Arial",
+  fill: "#ff0000"
+}).setOrigin(0.5, 0.5);
+this.input.enabled = false;
+this.time.delayedCall(1000, () => {
+  messageText.destroy();
+  this.afficherMessageFinDeJeu();
+  this.input.enabled = true;
+});
   // Masquer ou détruire les éléments de la question 3
   this.elementsQuestion3.forEach(element => element.setVisible(false)); // Masque les réponses de la question 3
   this.text_q3.setVisible(false); // Masque le texte de la question 3
@@ -82,16 +95,26 @@ afficherQuestion2() {
 // Fonction appelée lorsqu'on répond à la question 2
 repondreQuestion2(biere) {
   console.log("Réponse sélectionnée question 2:", biere.reponse);
-// Vérifier si la réponse est correcte
-if (biere.reponse === "0,2g/L") {
-  this.score += 20; // Bonne réponse, on ajoute 20 points
-} else {
-  this.score -= 10; // Mauvaise réponse, on enlève 10 points
-}
-
+let message = "";
+  if (biere.reponse === "0,2g/L") {
+    this.score += 20;
+    message = "✅ Bonne réponse ! Bien joué !";
+  } else {
+    this.score -= 10;
+    message = "❌ Mauvaise réponse... Essaie encore !";
+  }
 // Mettre à jour l'affichage du score
 this.scoreText.setText('Score: ' + this.score);
-
+const messageText = this.add.text(400, 350, message, {
+  font: "18px Arial",
+  fill: "#ff0000"
+}).setOrigin(0.5, 0.5);
+this.input.enabled = false;
+this.time.delayedCall(1000, () => {
+  messageText.destroy();
+  this.afficherQuestion3();
+  this.input.enabled = true;
+});
   // Masquer ou détruire les éléments de la question 2
   this.elementsQuestion2.forEach(element => element.setVisible(false)); // Masque les réponses de la question 2
   this.text_q2.setVisible(false); // Masque le texte de la question 2
@@ -104,15 +127,31 @@ this.scoreText.setText('Score: ' + this.score);
 // Fonction appelée lorsqu'on répond à la question 1
 repondreQuestion1(biere) {
   console.log("Réponse sélectionnée question 1:", biere.reponse);
-// Vérifier si la réponse est correcte
-if (biere.reponse === "0.5g/L") {
-  this.score += 20; // Bonne réponse, on ajoute 20 points
-} else {
-  this.score -= 10; // Mauvaise réponse, on enlève 10 points
-}
+let message = "";
+  if (biere.reponse === "0.5g/L") {
+    this.score += 20; // Bonne réponse
+    message = "✅ Bonne réponse ! Bien joué !";
+  } else {
+    this.score -= 10; // Mauvaise réponse
+    message = "❌ Mauvaise réponse... Essaie encore !";
+  }
 
 // Mettre à jour l'affichage du score
 this.scoreText.setText('Score: ' + this.score);
+ // Afficher le message temporaire
+ const messageText = this.add.text(400, 350, message, {
+  font: "18px Arial",
+  fill: "#ff0000"
+}).setOrigin(0.5, 0.5);
+
+  // Désactiver les interactions pour éviter de cliquer plusieurs fois
+  this.input.enabled = false;
+  // Supprimer le message après 1.5 secondes et passer à la prochaine question
+  this.time.delayedCall(1000, () => {
+    messageText.destroy(); // Efface le message
+    this.afficherQuestion2(); // Affiche la prochaine question
+    this.input.enabled = true; // Réactive les interactions
+  });
   // Masquer ou détruire les éléments de la question 1
   this.elementsQuestion1.forEach(element => element.setVisible(false)); // Rend invisible les éléments de la question 1
 
@@ -131,13 +170,6 @@ this.scoreText.setText('Score: ' + this.score);
 
 
 create() {
-
-  // Affichage du score
-  this.scoreText = this.add.text(16, 16, 'Score: 0', {
-    font: '16px Arial',
-    fill: '#fff'
-  });
-
   // Chargement de la carte
   const carteDuNiveau = this.make.tilemap({ key: "carte" });
 
@@ -153,6 +185,12 @@ create() {
 
   // Définition des collisions
   BG.setCollisionByProperty({ estSolide: true });
+  
+  // Affichage du score
+  this.scoreText = this.add.text(32, 32, 'Score: 0', {
+    font: '32px Arial',
+    fill: '#fff'
+  });
 
   // Animations du personnage
   this.anims.create({
