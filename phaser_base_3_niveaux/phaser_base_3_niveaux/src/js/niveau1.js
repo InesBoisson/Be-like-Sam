@@ -16,9 +16,9 @@ export default class Niveau1 extends Phaser.Scene {
 
     // chargement de la carte
     // Charger les images des tilesets
-    this.load.image("coffee_shop", "src/assets/3e4aa70777418d958610a424634bc2e5.png"); // Assurez-vous que l'extension est correcte
+    this.load.image("3e4aa70777418d958610a424634bc2e5", "src/assets/3e4aa70777418d958610a424634bc2e5.png"); // Assurez-vous que l'extension est correcte
     this.load.image("interiors_demoNew", "src/assets/interiors_demoNew.png");
-    this.load.image("alcohol_bottle", "src/assets/alcohol_bottle1.png"); // Assurez-vous que ce fichier existe
+    this.load.image("alcohol_bottle1", "src/assets/alcohol_bottle1.png"); // Assurez-vous que ce fichier existe
 
     // Charger la carte
     this.load.tilemapTiledJSON("CoffeeShop", "src/assets/CoffeeShop.json");
@@ -43,22 +43,22 @@ export default class Niveau1 extends Phaser.Scene {
     // Chargement des tilesets (VÉRIFIE bien les noms avec Tiled)
     const tilesetFond = carteDuNiveau.addTilesetImage("3e4aa70777418d958610a424634bc2e5", "3e4aa70777418d958610a424634bc2e5");
     const tilesetObjets = carteDuNiveau.addTilesetImage("interiors_demoNew", "interiors_demoNew");
-    const tilesPinte = carteDuNiveau.addTilesetImage("alcohol_bottle", "alcohol_bottle");
+    const tilesPinte = carteDuNiveau.addTilesetImage("alcohol_bottle1", "alcohol_bottle1");
 
     // Chargement des calques (VÉRIFIE les noms des calques dans Tiled)
     const Bar = carteDuNiveau.createLayer("Bar", [tilesetFond, tilesetObjets]);
-    const Pinte = carteDuNiveau.createLayer("Pinte", [tilesPinte, tilesetObjets]);
+    const Pinte = carteDuNiveau.createLayer("Pinte", tilesPinte);
 
 
     Bar.setCollisionByProperty({ estSolide: true });
-    Pinte.setCollisionByProperty({ estSolide: true });
 
 
 
     // Créer le personnage
-    this.player = this.physics.add.sprite(100, 450, 'player');
+    this.player = this.physics.add.sprite(300, 350, 'player');
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true); // Empêche le joueur de sortir de l'écran
+    this.physics.add.collider(this.player, Bar);
 
 
     // Afficher la barre de vie en utilisant la méthode this.add.sprite()
