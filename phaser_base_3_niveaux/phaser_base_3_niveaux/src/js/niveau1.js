@@ -9,11 +9,15 @@ export default class Niveau1 extends Phaser.Scene {
 
   preload() {
     // Charger les images nécessaires
-    this.load.image('background2', 'src/assets/sky.png');
+    this.load.image('coffee_shop', "src/assets/3e4aa70777418d958610a424634bc2e5.png");
+    this.load.image("interiors_demoNew", "src/assets/interiors_demoNew.png");
     this.load.image('waterGlass', 'src/assets/water_glass.png'); // Image de verre d'eau
     this.load.image('alcoholBottle', 'src/assets/alcohol_bottle.png'); // Image de bouteille d'alcool
     this.load.image('wineGlass', 'src/assets/wine_glass.png'); // Image de verre de vin
     this.load.image('waterBottle', 'src/assets/water_bottle.png'); // Image de bouteille d'eau
+
+    // chargement de la carte
+    this.load.tilemapTiledJSON("background2", "src/assets/CoffeeShop.json");
     this.load.spritesheet("player", "src/assets/dude.png", {
       frameWidth: 32,
       frameHeight: 48
@@ -24,17 +28,41 @@ export default class Niveau1 extends Phaser.Scene {
     });
   }
 
+
+
   create() {
+
+    const carteDuNiveau = this.add.tilemap("background2");
+
+    // chargement du jeu de tuiles
+    const tileset1 = carteDuNiveau.addTilesetImage("alcoholBottle", "alcoholBottle");
+    const tileset2 = carteDuNiveau.addTilesetImage("coffee_shop", "coffee_shop");
+    const tileset3 = carteDuNiveau.addTilesetImage("interiors_demoNew", "interiors_demoNew");
+
     // Ajouter le fond
     this.add.image(400, 300, 'background2');
+    
+    // chargement du calque bar
+    const Bar = carteDuNiveau.createLayer(
+      "Bar",
+      [tileset2, tileset3]
+    );
+
+    //chargement calque Pinte
+    const Pinte = carteDuNiveau.createLayer(
+      "Pinte",
+      tileset1
+    );
+    
 
     // Créer le personnage
     this.player = this.physics.add.sprite(100, 450, 'player');
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true); // Empêche le joueur de sortir de l'écran
 
+
     // Afficher la barre de vie en utilisant la méthode this.add.sprite()
-    this.framePV=0
+    this.framePV = 0
     this.barreVie = this.add.sprite(400, 40, "jauge").setFrame(this.framePV);
 
     // Créer les groupes pour les objets
@@ -42,9 +70,6 @@ export default class Niveau1 extends Phaser.Scene {
     this.alcoholBottles = this.physics.add.group();
     this.wineGlasses = this.physics.add.group(); // Groupe pour les verres de vin
     this.waterBottles = this.physics.add.group(); // Groupe pour les bouteilles d'eau
-
-
-
 
     // Gérer les touches du clavier
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -58,6 +83,7 @@ export default class Niveau1 extends Phaser.Scene {
     });
 
     // Gérer les collisions
+    BG.setCollisionByProperty({ estSolide: true });
     this.physics.add.overlap(this.player, this.waterGlasses, this.collectWaterGlass, null, this);
     this.physics.add.overlap(this.player, this.alcoholBottles, this.collectAlcoholBottle, null, this);
     this.physics.add.overlap(this.player, this.wineGlasses, this.collectWineGlass, null, this);
@@ -152,7 +178,7 @@ export default class Niveau1 extends Phaser.Scene {
     alcoholBottle.destroy(); // Détruire la bière
     if (this.score < this.maxScore) {
       this.score++;
-      this.framePV+=2;
+      this.framePV += 2;
       this.barreVie = this.add.sprite(400, 40, "jauge").setFrame(this.framePV);
 
     }
@@ -164,7 +190,7 @@ export default class Niveau1 extends Phaser.Scene {
 
     if (this.score < this.maxScore) {
       this.score++;
-      this.framePV+=2;
+      this.framePV += 2;
       this.barreVie = this.add.sprite(400, 40, "jauge").setFrame(this.framePV);
 
     }
