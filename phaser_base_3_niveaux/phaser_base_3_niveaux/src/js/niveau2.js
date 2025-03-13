@@ -13,7 +13,6 @@ export default class niveau2 extends Phaser.Scene {
     this.load.image("Tile_52", "src/assets/Tile_52.png");
     this.load.image("WorldSheetNew", "src/assets/WorldSheetNew.png");
     this.load.image("bouteille", "src/assets/alcohol_bottle.png")
-    this.load.audio('backgroundMusic2', 'src/assets/Brazil.mp3'); // Assurez-vous que le chemin est correct
 
 
 
@@ -36,7 +35,7 @@ export default class niveau2 extends Phaser.Scene {
     this.flouActif = false;
     this.inverserTouches = false;
     this.nombreCollisions = 0; // Réinitialisation correcte après un restart
-  
+
 
     // chargement de la carte
     const carteDuNiveau = this.add.tilemap("carte2");
@@ -48,10 +47,7 @@ export default class niveau2 extends Phaser.Scene {
     const tileset3 = carteDuNiveau.addTilesetImage("Tile_52", "Tile_52");
     const tileset4 = carteDuNiveau.addTilesetImage("WorldSheetNew", "WorldSheetNew");
 
-    this.musique_de_fond2 = this.sound.add('backgroundMusic2', { loop: true, volume: 0.5 });
-    this.time.delayedCall(500, () => {
-    this.musique_de_fond2.play();
-    });
+  
 
     // chargement du calque BackrgoundArbres
     const BackrgoundArbres = carteDuNiveau.createLayer(
@@ -153,17 +149,17 @@ export default class niveau2 extends Phaser.Scene {
     console.log("Nombre de collisions:", this.nombreCollisions); // Log pour le débogage
 
     if (this.nombreCollisions === 1) {
-        this.flouActif = true
-        this.postProcess.addBlur(4);
-        bouteille.destroy(); // Supprime la bouteille après collision
-        this.afficherMessage("Vous commencez à voir flou...");
-        
+      this.flouActif = true
+      this.postProcess.addBlur(4);
+      bouteille.destroy(); // Supprime la bouteille après collision
+      this.afficherMessage("Vous commencez à voir flou...");
+
 
     } else if (this.nombreCollisions === 2) {
-        this.inverserTouches = true
-        console.log("Touches inversées !", this.inverserTouches); // Vérification
-        bouteille.destroy(); // Supprime la bouteille après collision
-        this.afficherMessage("Oh non ! Tout est inversé !");
+      this.inverserTouches = true
+      console.log("Touches inversées !", this.inverserTouches); // Vérification
+      bouteille.destroy(); // Supprime la bouteille après collision
+      this.afficherMessage("Oh non ! Tout est inversé !");
 
     } else if (this.nombreCollisions >= 3) {
       this.physics.pause(); // Arrête la physique
@@ -172,14 +168,13 @@ export default class niveau2 extends Phaser.Scene {
       player.anims.play("anim_face");
       this.afficherMessage("Vous avez trop bu ! Game Over !");
       this.postProcess.addBlur(10);
-      this.musique_de_fond2.stop()
 
-  
+
       // Redémarrer la scène après 3 secondes
       this.time.delayedCall(3000, () => {
-          this.scene.restart(); // Réinitialise complètement la scène
+        this.scene.restart(); // Réinitialise complètement la scène
       });
-  }
+    }
     // Ajout d'un délai avant que le joueur puisse retoucher une autre bouteille
     this.time.delayedCall(1000, () => {
       this.peutToucherBouteille = true;
@@ -211,50 +206,49 @@ export default class niveau2 extends Phaser.Scene {
     this.nombreCollisions = 0;
   }
 
-  
+
   afficherMessage(text) {
     if (this.message) {
-        this.message.destroy(); // Supprime le message précédent s'il existe
+      this.message.destroy(); // Supprime le message précédent s'il existe
     }
     this.message = this.add.text(400, 300, text, {
-        font: '32px Arial',
-        fill: '#fff'
+      font: '32px Arial',
+      fill: '#fff'
     }).setOrigin(0.5);
     this.message.setPosition(this.player.x, this.player.y - 100);
     this.time.delayedCall(5000, () => {
       this.message.destroy();
       this.message = null;
-  });
-}
+    });
+  }
 
 
-afficherMessageAmi(player, perso3) {
-  console.log("🏆 Message de victoire déclenché !");
+  afficherMessageAmi(player, perso3) {
+    console.log("🏆 Message de victoire déclenché !");
 
-  // Si le joueur était en Game Over (après une bouteille), on réactive le jeu
-  if (this.gameOver) {
+    // Si le joueur était en Game Over (après une bouteille), on réactive le jeu
+    if (this.gameOver) {
       console.log("Le joueur était en Game Over, on le réactive !");
       this.gameOver = false;
       this.physics.resume(); // Réactiver la physique
       this.player.clearTint(); // Enlever la couleur rouge
       this.postProcess.clear(); // Supprimer le flou si activé
       this.inverserTouches = false; // Rétablir les touches normales
-  }
-  // Vérifie si le message existe déjà pour éviter les doublons
-  if (!this.message) {
-        this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
-            fontSize: '32px',
-            fill: '#fff',
-            fontFamily: "Arial",
-        }).setOrigin(0.5);
-     
+    }
+    // Vérifie si le message existe déjà pour éviter les doublons
+    if (!this.message) {
+      this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
+        fontSize: '32px',
+        fill: '#fff',
+        fontFamily: "Arial",
+      }).setOrigin(0.5);
+
       this.time.delayedCall(3000, () => {
         // Retour au menu après que le message a disparu
-        this.musique_de_fond2.stop();
         this.physics.pause();
         this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
 
-    });
+      });
     }
   }
 
@@ -301,19 +295,11 @@ afficherMessageAmi(player, perso3) {
 
       // Redémarrer la scène après 500 ms
       this.time.delayedCall(2000, () => {
-        this.musique_de_fond2.stop();
         this.scene.restart();
       });
       if (this.message) {
-        this.message.setPosition(this.player.x, this.player.y - 100); // 🔥 Suit le joueur en restant au-dessus
-    }
-
-    }
-    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
-      if (this.physics.overlap(this.player, this.porte_retour)) {
-        console.log("niveau 3 : retour vers menu");
-        this.scene.switch("menu");
+        this.message.setPosition(this.player.x, this.player.y - 100); // Suit le joueur en restant au-dessus
       }
-}
+    }
   }
 }
