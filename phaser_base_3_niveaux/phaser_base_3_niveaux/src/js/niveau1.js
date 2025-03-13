@@ -2,8 +2,9 @@
 export default class Niveau1 extends Phaser.Scene {
   constructor() {
     super({ key: 'niveau1' });
-    this.maxScore = 4; // Définir le score maximum
-    this.score = 0; // Initialisation correcte du score
+    this.maxJauge = 4; // Définir le score maximum
+    this.Jauge = 0; // Initialisation correcte du score
+    this.score = 0;
 
   }
 
@@ -116,6 +117,11 @@ export default class Niveau1 extends Phaser.Scene {
       callbackScope: this,
       loop: false // Ne pas répéter
     });
+
+    this.scoreText = this.add.text(32, 32, `Score: ${globalScore}`, {
+      font: '32px Arial',
+      fill: '#fff'
+  });
   }
 
   update() {
@@ -131,7 +137,7 @@ export default class Niveau1 extends Phaser.Scene {
       this.player.anims.play('anim_face');
     }
     // Vérifiez si le score a atteint la valeur maximale
-    if (this.score >= this.maxScore) {
+    if (this.Jauge >= this.Jauge) {
       this.stopGame(); // Appeler la fonction pour arrêter le jeu
     }
 
@@ -171,12 +177,19 @@ export default class Niveau1 extends Phaser.Scene {
   collectWaterGlass(player, waterGlass) {
     // Ne rien faire lorsque le joueur touche un verre d'eau
     waterGlass.destroy(); // Détruire le verre
+    this.score += 20; // Ajoute les points
+    globalScore = this.score; // Sauvegarde le score global
+    if (this.Jauge > 0) {
+      this.Jauge -= 0.5; // Diminuer la jauge d’un point
+      this.framePV -= 1; // Mettre à jour l'affichage
+      this.barreVie.setFrame(this.framePV); // Rafraîchir le sprite
+    }
   }
 
   collectAlcoholBottle(player, alcoholBottle) {
     alcoholBottle.destroy(); // Détruire la bière
-    if (this.score < this.maxScore) {
-      this.score++;
+    if (this.Jauge < this.Jauge) {
+      this.Jauge++;
       this.framePV += 2;
       this.barreVie = this.add.sprite(400, 40, "jauge").setFrame(this.framePV);
 
@@ -187,8 +200,8 @@ export default class Niveau1 extends Phaser.Scene {
   collectWineGlass(player, wineGlass) {
     wineGlass.destroy(); // Détruire le verre de vin
 
-    if (this.score < this.maxScore) {
-      this.score++;
+    if (this.Jauge < this.Jauge) {
+      this.Jauge++;
       this.framePV += 2;
       this.barreVie = this.add.sprite(400, 40, "jauge").setFrame(this.framePV);
 
@@ -200,6 +213,19 @@ export default class Niveau1 extends Phaser.Scene {
   collectWaterBottle(player, waterBottle) {
     // Ne rien faire lorsque le joueur touche une bouteille d'eau
     waterBottle.destroy(); // Détruire la bouteille d'eau
+    this.score += 20; // Ajoute les points
+    globalScore = this.score; // Sauvegarde le score global
+    if (this.Jauge > 0) {
+      this.Jauge -= 0.5; // Diminuer la jauge d’un point
+      this.framePV -= 1; // Mettre à jour l'affichage
+      this.barreVie.setFrame(this.framePV); // Rafraîchir le sprite
+    }
+
+  }
+
+  updateScore(points) {
+    this.score += points; // Ajoute les points au score global
+    this.scoreText.setText(`Score: ${globalScore}`); // Met à jour l'affichage
   }
 
   finNiveau() {

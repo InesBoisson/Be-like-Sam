@@ -7,10 +7,11 @@ import niveau2 from "/src/js/niveau2.js";
 import niveau3 from "/src/js/niveau3.js";
 import Dialogue from "/src/js/Dialogue.js"; // Vérifie bien ce chemin
 
+let globalScore = 0;
 
 
 // configuration générale du jeu
-var config = {
+const config = {
   type: Phaser.AUTO,
   width: 800, // largeur en pixels
   height: 600, // hauteur en pixels
@@ -33,6 +34,7 @@ var config = {
   scene: [menu, Regles, selection, niveau1, niveau2, niveau3, Dialogue]
 };
 
+
 // création et lancement du jeu
-var game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
 game.scene.start("menu2");
