@@ -295,6 +295,18 @@ reponses2.forEach((reponse) => {
     biere.setInteractive();
     biere.on("pointerdown", () => this.repondreQuestion3(biere), this); // Appelle la fonction de réponse pour la question 3
   });  
+
+  groupe_bieres.children.iterate((biere) => {
+    biere.setInteractive();
+
+    biere.on('pointerover', () => {
+        biere.setScale(1.5); // Agrandit quand on passe la souris dessus
+    });
+
+    biere.on('pointerout', () => {
+        biere.setScale(1); // Revient à la taille normale
+    });
+});
 }
 
 

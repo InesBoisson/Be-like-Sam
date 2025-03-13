@@ -21,7 +21,7 @@ export default class Menu extends Phaser.Scene {
     // Bouton pour commencer le jeu
     const startButton = this.add.image(400, 400, "startButton").setInteractive(); // Rendre le bouton interactif
     startButton.on('pointerup', () => {
-      this.scene.start("niveau1"); // Démarrer la scène niveau1
+      this.scene.start("niveau3"); // Démarrer la scène niveau1
     });
 
     // Ajouter l'image de l'étoile comme bouton pour voir les règles
