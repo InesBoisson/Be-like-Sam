@@ -70,6 +70,8 @@ export default class niveau2 extends Phaser.Scene {
     this.Bob = this.physics.add.sprite(3150, 350, 'Bob');
     this.Bob.setBounce(0.1);
     this.Bob.setScale(0.5)
+    this.Bob.setDepth(10); // Bob sera toujours au-dessus du flou
+
     this.player.setCollideWorldBounds(true); // Empêche le joueur de sortir de l'écran
     this.physics.add.collider(this.player, Plateformes);
     this.physics.add.collider(this.Bob, Plateformes);
@@ -155,6 +157,7 @@ export default class niveau2 extends Phaser.Scene {
         this.postProcess.addBlur(4);
         bouteille.destroy(); // Supprime la bouteille après collision
         this.afficherMessage("Vous commencez à voir flou...");
+        
 
     } else if (this.nombreCollisions === 2) {
         this.inverserTouches = true
@@ -208,8 +211,7 @@ export default class niveau2 extends Phaser.Scene {
     this.nombreCollisions = 0;
   }
 
-
-
+  
   afficherMessage(text) {
     if (this.message) {
         this.message.destroy(); // Supprime le message précédent s'il existe
@@ -218,31 +220,44 @@ export default class niveau2 extends Phaser.Scene {
         font: '32px Arial',
         fill: '#fff'
     }).setOrigin(0.5);
+    this.message.setPosition(this.player.x, this.player.y - 100);
+    this.time.delayedCall(5000, () => {
+      this.message.destroy();
+      this.message = null;
+  });
 }
 
 
-  afficherMessageAmi(player, perso3) {
-    // Vérifie si le message existe déjà pour éviter les doublons
-    if (!this.message) {
+afficherMessageAmi(player, perso3) {
+  console.log("🏆 Message de victoire déclenché !");
 
-      this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
-        fontSize: '32px',
-        fill: '#fff',
-        fontFamily: "Arial",
-      }).setOrigin(0.5);
-
-      // Supprime le message après 5 secondes et retourne au menu
+  // Si le joueur était en Game Over (après une bouteille), on réactive le jeu
+  if (this.gameOver) {
+      console.log("Le joueur était en Game Over, on le réactive !");
+      this.gameOver = false;
+      this.physics.resume(); // Réactiver la physique
+      this.player.clearTint(); // Enlever la couleur rouge
+      this.postProcess.clear(); // Supprimer le flou si activé
+      this.inverserTouches = false; // Rétablir les touches normales
+  }
+  // Vérifie si le message existe déjà pour éviter les doublons
+  if (!this.message) {
+        this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
+            fontSize: '32px',
+            fill: '#fff',
+            fontFamily: "Arial",
+        }).setOrigin(0.5);
+     
       this.time.delayedCall(5000, () => {
-        if (this.message) {
-          this.message.destroy();
-          this.message = null;
-        }
         // Retour au menu après que le message a disparu
         this.musique_de_fond2.stop();
+        this.physics.pause();
         this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
-      });
+
+    });
     }
   }
+
 
 
   update() {
@@ -289,6 +304,9 @@ export default class niveau2 extends Phaser.Scene {
         this.musique_de_fond2.stop();
         this.scene.restart();
       });
+      if (this.message) {
+        this.message.setPosition(this.player.x, this.player.y - 100); // 🔥 Suit le joueur en restant au-dessus
+    }
 
     }
     if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
@@ -296,6 +314,6 @@ export default class niveau2 extends Phaser.Scene {
         console.log("niveau 3 : retour vers menu");
         this.scene.switch("menu");
       }
-    }
+}
   }
 }
