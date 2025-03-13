@@ -33,6 +33,7 @@ export default class niveau2 extends Phaser.Scene {
     this.deathMessage = null;
     this.flouActif = false;
     this.inverserTouches = false;
+    this.nombreCollisions = 0; // Réinitialisation correcte après un restart
   
 
     // chargement de la carte
@@ -146,22 +147,29 @@ export default class niveau2 extends Phaser.Scene {
     if (this.nombreCollisions === 1) {
         this.flouActif = true
         this.postProcess.addBlur(4);
+        bouteille.destroy(); // Supprime la bouteille après collision
         this.afficherMessage("Vous commencez à voir flou...");
 
     } else if (this.nombreCollisions === 2) {
         this.inverserTouches = true
+        console.log("Touches inversées !", this.inverserTouches); // Vérification
+        bouteille.destroy(); // Supprime la bouteille après collision
         this.afficherMessage("Oh non ! Tout est inversé !");
 
     } else if (this.nombreCollisions >= 3) {
-        this.physics.pause()
-        player.setTint(0xff0000);
-        player.anims.play("anim_face")
-        this.afficherMessage("Vous avez trop bu ! Game Over !");
-        this.postProcess.addBlur(10)
-        this.time.delayedCall(3000, () => {
-            this.reinitialiserJoueur();
-        });
-    }
+      this.physics.pause(); // Arrête la physique
+      player.setTint(0xff0000); // Change la couleur du joueur pour indiquer la mort
+      bouteille.destroy(); // Supprime la bouteille après collision
+      player.anims.play("anim_face");
+      this.afficherMessage("Vous avez trop bu ! Game Over !");
+      this.postProcess.addBlur(10);
+
+  
+      // Redémarrer la scène après 3 secondes
+      this.time.delayedCall(3000, () => {
+          this.scene.restart(); // Réinitialise complètement la scène
+      });
+  }
     // Ajout d'un délai avant que le joueur puisse retoucher une autre bouteille
     this.time.delayedCall(1000, () => {
       this.peutToucherBouteille = true;
@@ -241,10 +249,10 @@ export default class niveau2 extends Phaser.Scene {
       vitesse = -160; // Inversion des touches
     }
     if (this.clavier.left.isDown) {
-      this.player.setVelocityX(-160);
+      this.player.setVelocityX(-vitesse); // Appliquer l'inversion
       this.player.anims.play("anim_tourne_gauche", true);
     } else if (this.clavier.right.isDown) {
-      this.player.setVelocityX(160);
+      this.player.setVelocityX(vitesse); // Appliquer l'inversion
       this.player.anims.play("anim_tourne_droite", true);
     } else {
       this.player.setVelocityX(0);

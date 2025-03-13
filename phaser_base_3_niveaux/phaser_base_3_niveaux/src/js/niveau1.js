@@ -5,6 +5,7 @@ export default class Niveau1 extends Phaser.Scene {
     this.maxJauge = 4; // Définir le score maximum
     this.Jauge = 0; // Initialisation correcte du score
     this.Score1 = 0;
+    this.musique_de_fond = null;
 
   }
 
@@ -54,8 +55,8 @@ export default class Niveau1 extends Phaser.Scene {
 
     Bar.setCollisionByProperty({ estSolide: true });
 
-    this.music = this.sound.add('backgroundMusic'); // Ajouter la musique
-    this.music.play({ loop: true }); // Jouer la musique en boucle
+    this.musique_de_fond = this.sound.add('backgroundMusic');
+    this.musique_de_fond.play();  
 
     // Créer le personnage
     this.player = this.physics.add.sprite(300, 350, 'player');
@@ -133,9 +134,13 @@ export default class Niveau1 extends Phaser.Scene {
     }
     if (this.Jauge >= this.maxJauge) {
       this.stopGame(); // Arrête le jeu seulement si la jauge atteint le max
+      // arret du son background
+      this.musique_de_fond.stop();  
     }
     if (this.Score1 >= 150) {
       this.finNiveau(); // Terminer le niveau si le score atteint 150
+      // arret du son background
+      this.musique_de_fond.stop();  
     }
 
 
@@ -225,7 +230,6 @@ export default class Niveau1 extends Phaser.Scene {
 
 
   finNiveau() {
-    console.log("Le temps est écoulé !");
     this.physics.pause(); // Arrêter la physique pour éviter des bugs
     this.scene.start('Dialogue'); // Lancer la scène de Dialogue
   }
