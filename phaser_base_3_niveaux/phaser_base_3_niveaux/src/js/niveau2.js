@@ -30,8 +30,9 @@ export default class niveau2 extends Phaser.Scene {
 
   create() {
 
-    this.deathMessage = null; 
-
+    this.deathMessage = null;
+    this.flouActif = false;
+    this.inverserTouches = false;
 
     // chargement de la carte
     const carteDuNiveau = this.add.tilemap("carte2");
@@ -76,7 +77,7 @@ export default class niveau2 extends Phaser.Scene {
     //  ajout du champs de la caméra de taille identique à celle du monde
     this.cameras.main.setBounds(0, 0, 3200, 640);
     // ancrage de la caméra sur le joueur
-    this.cameras.main.startFollow(this.player);  
+    this.cameras.main.startFollow(this.player);
 
 
     // Créer les animations
@@ -113,77 +114,124 @@ export default class niveau2 extends Phaser.Scene {
     this.groupe_bouteilles = this.physics.add.group();
 
     // Génération aléatoire des bouteilles
-    let nombreBouteilles = 5; // Nombre de bouteilles à générer
+    let nombreBouteilles = 7; // Nombre de bouteilles à générer
     for (let i = 0; i < nombreBouteilles; i++) {
-        let x = Phaser.Math.Between(100, 1200); // Position X aléatoire
-        let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
+      let x = Phaser.Math.Between(100, 3000); // Position X aléatoire
+      let y = Phaser.Math.Between(100, 600); // Position Y aléatoire
 
-        let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
-        bouteille.setImmovable(true); // La bouteille reste fixe
-        
+      let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
+      bouteille.setImmovable(true); // La bouteille reste fixe
+      bouteille.body.setEnable(true); // Force l'activation du body
+
     }
-  // Ajout des collisions entre les bouteilles et les plateformes
-  this.physics.add.collider(this.groupe_bouteilles, Plateformes);
+    // Ajout des collisions entre les bouteilles et les plateformes
+    this.physics.add.collider(this.groupe_bouteilles, Plateformes);
 
-  // Détection de collision entre le joueur et une bouteille
-  this.physics.add.overlap(this.player, this.groupe_bouteilles, this.chocAvecBouteille, null, this);
-}  
-// Fonction déclenchée lorsque le joueur touche une bouteille
-chocAvecBouteille(player, alcohol_bottle) {
-  this.physics.pause();
-  player.setTint(0xff0000); // Change la couleur du joueur en rouge
-  player.anims.play("anim_face"); // Animation d'arrêt
-  this.gameOver = true;
-   
-  // Affichage du message de mort
-  this.messageMort = this.add.text(player.x, player.y - 50, "Vous êtes mort!", {
-    fontSize: '32px',
-    fill: '#fff',
-    fontFamily: "Arial",
-}).setOrigin(0.5);
+    // Détection de collision entre le joueur et une bouteille
+    this.physics.add.overlap(this.player, this.groupe_bouteilles, this.chocAvecBouteille, null, this);
 
-// Retour au début après 2 secondes
-   this.time.delayedCall(2000, () => {
-    this.reinitialiserJoueur();
-});
+   // Effet de flou désactivé au début
+   this.postProcess = this.cameras.main.postFX;
+  }
+
+  // Fonction déclenchée lorsque le joueur touche une bouteille
+  chocAvecBouteille(player, bouteille) {
+    this.nombreCollisions++;
+    this.nombreCollisions++;
+
+    if (this.nombreCollisions === 1) {
+        // Activer un flou léger après la première collision
+        this.flouActif = true;
+        this.postProcess.addBlur(4); // Ajoute un effet de flou léger
+        this.afficherMessage("Vous commencez à voir flou...");
+
+    } else if (this.nombreCollisions === 2) {
+        // Inverser les touches de direction
+        this.inverserTouches = true;
+        this.afficherMessage("Oh non ! Tout est inversé !");
+        
+    } else if (this.nombreCollisions >= 3) {
+        // GAME OVER : Le joueur meurt et revient au début
+        this.physics.pause();
+        player.setTint(0xff0000); // Change la couleur du joueur en rouge
+        player.anims.play("anim_face");
+
+        this.afficherMessage("Vous avez trop bu ! Game Over !");
+
+        // Augmenter encore plus le flou avant le Game Over
+        this.postProcess.addBlur(10);
+
+        // Retour au début après 3 secondes
+        this.time.delayedCall(3000, () => {
+            this.reinitialiserJoueur();
+        });
+    }
+
+    // Ajout d'un délai avant que le joueur puisse retoucher une autre bouteille
+    this.time.delayedCall(1000, () => {
+        this.peutToucherBouteille = true;
+    });
 }
 
-// Fonction pour réinitialiser le joueur au début
-reinitialiserJoueur() {
-  this.gameOver = false;
-  this.physics.resume();
-  this.player.setPosition(50, 350); // Change cette position selon ton spawn
-  this.player.setVelocity(0, 0);
-  this.player.clearTint(); // Enlève la couleur rouge
+  // Fonction pour réinitialiser le joueur au début
+  reinitialiserJoueur() {
+    this.gameOver = false;
+    this.physics.resume();
+    this.player.setPosition(50, 350);
+    this.player.setVelocity(0, 0);
+    this.player.clearTint();
 
-  // Supprimer le message de mort s'il existe
-  if (this.messageMort) {
+    // Supprimer le flou
+    document.body.style.filter = "none";
+
+    // Réinitialiser les touches inversées
+    this.inverserTouches = false;
+    // Supprimer le message de mort s'il existe
+    if (this.messageMort) {
       this.messageMort.destroy();
       this.messageMort = null;
-  }
-}
-  
+    }
 
-afficherMessageAmi(player, perso3) {
-  // Vérifie si le message existe déjà pour éviter les doublons
-  if (!this.message) {
-    
+    // Réinitialiser le compteur de collisions
+    this.nombreCollisions = 0;
+  }
+
+  // Fonction pour réinitialiser le joueur au début
+  reinitialiserJoueur() {
+    this.gameOver = false;
+    this.physics.resume();
+    this.player.setPosition(50, 350); // Change cette position selon ton spawn
+    this.player.setVelocity(0, 0);
+    this.player.clearTint(); // Enlève la couleur rouge
+
+    // Supprimer le message de mort s'il existe
+    if (this.messageMort) {
+      this.messageMort.destroy();
+      this.messageMort = null;
+    }
+  }
+
+
+  afficherMessageAmi(player, perso3) {
+    // Vérifie si le message existe déjà pour éviter les doublons
+    if (!this.message) {
+
       this.message = this.add.text(2900, 400, "Bravo Sam! Tu as retrouvé Bob!", {
-          fontSize: '32px',
-          fill: '#fff',
-          fontFamily: "Arial",
+        fontSize: '32px',
+        fill: '#fff',
+        fontFamily: "Arial",
       }).setOrigin(0.5);
-    
+
       // Supprime le message après 5 secondes et retourne au menu
-        this.time.delayedCall(5000, () => {
-            if (this.message) {
-                this.message.destroy();
-                this.message = null;
-            }
-            // Retour au menu après que le message a disparu
-            this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
-        });
-    } 
+      this.time.delayedCall(5000, () => {
+        if (this.message) {
+          this.message.destroy();
+          this.message = null;
+        }
+        // Retour au menu après que le message a disparu
+        this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
+      });
+    }
   }
 
 
@@ -191,7 +239,13 @@ afficherMessageAmi(player, perso3) {
 
     // Initialisation des touches
     this.clavier = this.input.keyboard.createCursorKeys();
-
+    if (this.gameOver) {
+      return;
+    }
+    let vitesse = 160;
+    if (this.inverserTouches) {
+      vitesse = -160; // Inversion des touches
+    }
     if (this.clavier.left.isDown) {
       this.player.setVelocityX(-160);
       this.player.anims.play("anim_tourne_gauche", true);
@@ -203,29 +257,29 @@ afficherMessageAmi(player, perso3) {
       this.player.anims.play("anim_face");
     }
 
-  // Saut - UNIQUEMENT si la touche vient d'être pressée une seule fois
-  if (Phaser.Input.Keyboard.JustDown(this.cursors.up) && this.player.body.blocked.down) {
-    this.player.setVelocityY(-500); // Hauteur du saut
-    this.player.anims.play("anim_saut");
-}
+    // Saut - UNIQUEMENT si la touche vient d'être pressée une seule fois
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.up) && this.player.body.blocked.down) {
+      this.player.setVelocityY(-500); // Hauteur du saut
+      this.player.anims.play("anim_saut");
+    }
 
-if (this.player.y >= this.cameras.main.height && !this.deathMessage) {
-  // Afficher le message de mort s'il n'existe pas déjà
-  this.deathMessage = this.add.text(400, 300, 'Vous êtes mort !', {
-    font: '32px Georgia',
-    fill: '#fff',
-  }).setOrigin(0.5).setScrollFactor(0);
- 
-  // Désactiver le corps physique du joueur 1
-  this.player.setVelocity(0, 0);
-  this.player.body.enable = false;
+    if (this.player.y >= this.cameras.main.height && !this.deathMessage) {
+      // Afficher le message de mort s'il n'existe pas déjà
+      this.deathMessage = this.add.text(400, 300, 'Vous êtes mort !', {
+        font: '32px Georgia',
+        fill: '#fff',
+      }).setOrigin(0.5).setScrollFactor(0);
 
-  // Redémarrer la scène après 500 ms
-  this.time.delayedCall(2000, () => {
-    this.scene.restart();
-  });
+      // Désactiver le corps physique du joueur 1
+      this.player.setVelocity(0, 0);
+      this.player.body.enable = false;
 
-}
+      // Redémarrer la scène après 500 ms
+      this.time.delayedCall(2000, () => {
+        this.scene.restart();
+      });
+
+    }
     if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
       if (this.physics.overlap(this.player, this.porte_retour)) {
         console.log("niveau 3 : retour vers menu");
