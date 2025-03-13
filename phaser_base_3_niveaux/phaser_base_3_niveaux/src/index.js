@@ -36,4 +36,4 @@ const config = {
 
 // création et lancement du jeu
 const game = new Phaser.Game(config);
-game.scene.start("menu2");
+game.scene.start("menu");

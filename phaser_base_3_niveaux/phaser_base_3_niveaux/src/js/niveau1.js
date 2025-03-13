@@ -110,7 +110,7 @@ export default class Niveau1 extends Phaser.Scene {
       frameRate: 20
     });
 
-    
+
     this.scoreText = this.add.text(32, 32, `Score: ${this.Score1}`, {
       font: '32px Arial',
       fill: '#fff'
@@ -129,7 +129,7 @@ export default class Niveau1 extends Phaser.Scene {
       this.player.setVelocityX(0);
       this.player.anims.play('anim_face');
     }
-    if (this.Jauge >= this.maxJauge) { 
+    if (this.Jauge >= this.maxJauge) {
       this.stopGame(); // Arrête le jeu seulement si la jauge atteint le max
     }
     if (this.Score1 >= 150) {
@@ -169,6 +169,7 @@ export default class Niveau1 extends Phaser.Scene {
   }
 
 
+
   collectWaterGlass(player, waterGlass) {
     // Ne rien faire lorsque le joueur touche un verre d'eau
     waterGlass.destroy(); // Détruire le verre
@@ -180,7 +181,7 @@ export default class Niveau1 extends Phaser.Scene {
       this.barreVie.setFrame(this.framePV); // Rafraîchir le sprite
     }
 
-    
+
   }
 
   collectAlcoholBottle(player, alcoholBottle) {
@@ -220,12 +221,12 @@ export default class Niveau1 extends Phaser.Scene {
 
   }
 
-  
-finNiveau() {
-  console.log("Le temps est écoulé !");
-  this.physics.pause(); // Arrêter la physique pour éviter des bugs
-  this.scene.start('Dialogue'); // Lancer la scène de Dialogue
-}
+
+  finNiveau() {
+    console.log("Le temps est écoulé !");
+    this.physics.pause(); // Arrêter la physique pour éviter des bugs
+    this.scene.start('Dialogue'); // Lancer la scène de Dialogue
+  }
 
 
 }
