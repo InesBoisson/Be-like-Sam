@@ -13,6 +13,8 @@ export default class niveau3 extends Phaser.Scene {
     this.load.image("tavern-decoNEW", "src/assets/tavern-decoNEW.png");
     this.load.image("tavern-furnitureNEW", "src/assets/tavern-furnitureNEW.png");
     this.load.image("TopDownHouse_FloorsAndWallsNEW", "src/assets/TopDownHouse_FloorsAndWallsNEW.png");
+    this.load.audio('backgroundMusic3', 'src/assets/Timide.mp3'); // Assurez-vous que le chemin est correct
+
     // chargement de la carte
     this.load.tilemapTiledJSON("carte", "src/assets/jeu_N3.json");
     this.add.image(800, 600, "carte").setDepth(0);
@@ -31,6 +33,7 @@ export default class niveau3 extends Phaser.Scene {
       font: "20px Arial",
       fill: "#000000"
     }).setOrigin(0.5, 0.5);
+    this.musique_de_fond3.stop(); 
     // Attendre 3 secondes, puis revenir au menu
     this.time.delayedCall(5000, () => {
       this.scene.start('menu'); // Remplace 'MenuScene' par le nom réel de ta scène de menu
@@ -177,6 +180,11 @@ export default class niveau3 extends Phaser.Scene {
     const tileset1 = carteDuNiveau.addTilesetImage("tavern-decoNEW", "tavern-decoNEW");
     const tileset2 = carteDuNiveau.addTilesetImage("tavern-furnitureNEW", "tavern-furnitureNEW");
     const tileset3 = carteDuNiveau.addTilesetImage("TopDownHouse_FloorsAndWallsNEW", "TopDownHouse_FloorsAndWallsNEW");
+
+    this.musique_de_fond3 = this.sound.add('backgroundMusic3', { loop: true, volume: 0.5 });
+    this.time.delayedCall(500, () => {
+    this.musique_de_fond3.play();
+    });
 
     // chargement des calques
     const BG = carteDuNiveau.createLayer("BG", [tileset1, tileset2, tileset3]);
@@ -328,4 +336,5 @@ export default class niveau3 extends Phaser.Scene {
     }
 
   }
+  
 }
