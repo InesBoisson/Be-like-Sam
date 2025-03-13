@@ -26,19 +26,25 @@ export default class niveau3 extends Phaser.Scene {
     });
   }
 
-  // Fonction pour afficher le message de fin de jeu
   afficherMessageFinDeJeu() {
     // Crée un texte avec un message de félicitations
     const messageFin = this.add.text(400, 230, `Bravo, vous avez fini le jeu !\n N'oubliez pas, Sam c'est celui qui conduit \n et celui qui ne boit pas !\nVotre score final est: ${this.score}`, {
-      font: "20px Arial",
-      fill: "#000000"
+        font: "20px Arial",
+        fill: "#000000"
     }).setOrigin(0.5, 0.5);
+    
     this.musique_de_fond3.stop(); 
-    // Attendre 3 secondes, puis revenir au menu
-    this.time.delayedCall(5000, () => {
-      this.scene.start('menu'); // Remplace 'MenuScene' par le nom réel de ta scène de menu
+
+    // Attendre 3 secondes, puis réinitialiser le jeu
+    this.time.delayedCall(3000, () => {
+        this.scene.start('menu'); // Retourne au menu
+        this.scene.stop('niveau1'); // Arrête le niveau 1
+        this.scene.stop('niveau2'); // Arrête le niveau 2
+        this.scene.stop('Dialogue'); // Arrête la scène de dialogue si elle est active
+        this.scene.stop('Regles'); // Arrête la scène des règles si elle est active
+        this.scene.stop('niveau3'); // Arrête le niveau 3
     });
-  } o
+}
 
   // Fonction pour afficher la question 3
   afficherQuestion3() {
