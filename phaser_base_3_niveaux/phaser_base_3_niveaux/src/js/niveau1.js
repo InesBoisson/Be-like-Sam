@@ -7,6 +7,10 @@ export default class Niveau1 extends Phaser.Scene {
     this.Score1 = 0; // Initialisation du score
     this.musique_de_fond = null; // Variable pour la musique de fond
   }
+  init() {
+    this.Jauge = 0; 
+    this.Score1 = 0;
+  }
 
   preload() {
     // Charger les images nécessaires pour le jeu
