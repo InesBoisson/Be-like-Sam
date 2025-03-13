@@ -217,4 +217,4 @@ export default class Niveau1 extends Phaser.Scene {
     this.physics.pause(); // Arrêter la physique pour éviter des bugs
     this.scene.start('Dialogue'); // Lancer la scène de Dialogue
   }
-}
+} 
