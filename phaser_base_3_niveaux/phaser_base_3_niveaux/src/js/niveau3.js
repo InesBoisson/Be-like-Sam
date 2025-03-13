@@ -18,10 +18,10 @@ this.load.tilemapTiledJSON("carte", "src/assets/jeu_N3.json");
 this.add.image(800, 600, "carte").setDepth(0); 
 //chargement image biere
 this.load.image("img_bieres", "src/assets/alcohol_bottle.png");
-this.load.spritesheet("img_perso", "src/assets/dude.png", {
-  frameWidth: 32,
-  frameHeight: 48
-}); 
+this.load.spritesheet("player", "src/assets/perso1.png", {
+  frameWidth: 75,
+  frameHeight: 110
+});
 }
 
 // Fonction pour afficher le message de fin de jeu
@@ -193,25 +193,26 @@ create() {
   });
 
   // Animations du personnage
-  this.anims.create({
-    key: "anim_tourne_gauche",
-    frames: this.anims.generateFrameNumbers("img_perso", { start: 0, end: 3 }),
-    frameRate: 10,
-    repeat: -1
-  });
+// Créer les animations
+this.anims.create({
+  key: "anim_tourne_gauche",
+  frames: this.anims.generateFrameNumbers("player", { start: 2, end: 3 }),
+  frameRate: 10,
+  repeat: -1
+});
 
-  this.anims.create({
-    key: "anim_face",
-    frames: [{ key: "img_perso", frame: 4 }],
-    frameRate: 10
-  });
+this.anims.create({
+  key: "anim_tourne_droite",
+  frames: this.anims.generateFrameNumbers("player", { start: 4, end: 5 }),
+  frameRate: 10,
+  repeat: -1
+});
 
-  this.anims.create({
-    key: "anim_tourne_droite",
-    frames: this.anims.generateFrameNumbers("img_perso", { start: 5, end: 8 }),
-    frameRate: 10,
-    repeat: -1
-  });
+this.anims.create({
+  key: "anim_face",
+  frames: [{ key: "player", frame: 0 }],
+  frameRate: 20
+});
 
   // Ajout du joueur
   this.player = this.physics.add.sprite(800, 200, "img_perso");
