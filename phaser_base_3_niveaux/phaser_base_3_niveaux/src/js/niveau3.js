@@ -320,6 +320,7 @@ export default class niveau3 extends Phaser.Scene {
 
 
   update() {
+    //animation du personnage 
     if (this.clavier.left.isDown) {
       this.player.setVelocityX(-160);
       this.player.anims.play("anim_tourne_gauche", true);
