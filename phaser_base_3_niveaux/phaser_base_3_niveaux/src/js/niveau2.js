@@ -3,8 +3,8 @@ export default class niveau2 extends Phaser.Scene {
   constructor() {
     super({
       key: "niveau2" //  ici on précise le nom de la classe en tant qu'identifiant
-
     });
+    this.nombreCollisions = 0; // Initialisation du compteur de collision
   }
   preload() {
     // chargement tuiles de jeu
@@ -33,6 +33,7 @@ export default class niveau2 extends Phaser.Scene {
     this.deathMessage = null;
     this.flouActif = false;
     this.inverserTouches = false;
+  
 
     // chargement de la carte
     const carteDuNiveau = this.add.tilemap("carte2");
@@ -114,66 +115,58 @@ export default class niveau2 extends Phaser.Scene {
     this.groupe_bouteilles = this.physics.add.group();
 
     // Génération aléatoire des bouteilles
-let nombreBouteilles = 7; // Nombre de bouteilles à générer
-for (let i = 0; i < nombreBouteilles; i++) {
-    let x = Phaser.Math.Between(100, 3000); // Position X aléatoire
-    let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
+    let nombreBouteilles = 7; // Nombre de bouteilles à générer
+    for (let i = 0; i < nombreBouteilles; i++) {
+      let x = Phaser.Math.Between(100, 3000); // Position X aléatoire
+      let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
 
-    let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
-    bouteille.setImmovable(true); // La bouteille reste fixe
-    bouteille.body.setEnable(true); // Active le body de la bouteille
-    bouteille.setBounce(0.5); // Ajoute du rebond pour éviter qu'elle soit bloquée
+      let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
+      bouteille.setImmovable(true); // La bouteille reste fixe
+      bouteille.body.setEnable(true); // Active le body de la bouteille
+      bouteille.setBounce(0.5); // Ajoute du rebond pour éviter qu'elle soit bloquée
 
-    console.log(`Bouteille placée à x: ${x}, y: ${y}`); // Vérifier si elles apparaissent bien
-}
+      console.log(`Bouteille placée à x: ${x}, y: ${y}`); // Vérifier si elles apparaissent bien
+    }
     // Ajout des collisions entre les bouteilles et les plateformes
     this.physics.add.collider(this.groupe_bouteilles, Plateformes);
 
     // Détection de collision entre le joueur et une bouteille
     this.physics.add.overlap(this.player, this.groupe_bouteilles, this.chocAvecBouteille, null, this);
 
-   // Effet de flou désactivé au début
-   this.postProcess = this.cameras.main.postFX;
+    // Effet de flou désactivé au début
+    this.postProcess = this.cameras.main.postFX;
   }
 
-  // Fonction déclenchée lorsque le joueur touche une bouteille
+
   chocAvecBouteille(player, bouteille) {
     console.log("Collision détectée !");
     this.nombreCollisions++;
+    console.log("Nombre de collisions:", this.nombreCollisions); // Log pour le débogage
 
     if (this.nombreCollisions === 1) {
-        // Activer un flou léger après la première collision
-        this.flouActif = true;
-        this.postProcess.addBlur(4); // Ajoute un effet de flou léger
+        this.flouActif = true
+        this.postProcess.addBlur(4);
         this.afficherMessage("Vous commencez à voir flou...");
 
     } else if (this.nombreCollisions === 2) {
-        // Inverser les touches de direction
-        this.inverserTouches = true;
+        this.inverserTouches = true
         this.afficherMessage("Oh non ! Tout est inversé !");
-        
+
     } else if (this.nombreCollisions >= 3) {
-        // GAME OVER : Le joueur meurt et revient au début
-        this.physics.pause();
-        player.setTint(0xff0000); // Change la couleur du joueur en rouge
-        player.anims.play("anim_face");
-
+        this.physics.pause()
+        player.setTint(0xff0000);
+        player.anims.play("anim_face")
         this.afficherMessage("Vous avez trop bu ! Game Over !");
-
-        // Augmenter encore plus le flou avant le Game Over
-        this.postProcess.addBlur(10);
-
-        // Retour au début après 3 secondes
+        this.postProcess.addBlur(10)
         this.time.delayedCall(3000, () => {
             this.reinitialiserJoueur();
         });
     }
-
     // Ajout d'un délai avant que le joueur puisse retoucher une autre bouteille
     this.time.delayedCall(1000, () => {
-        this.peutToucherBouteille = true;
+      this.peutToucherBouteille = true;
     });
-}
+  }
 
   // Fonction pour réinitialiser le joueur au début
   reinitialiserJoueur() {
@@ -182,6 +175,8 @@ for (let i = 0; i < nombreBouteilles; i++) {
     this.player.setPosition(50, 350);
     this.player.setVelocity(0, 0);
     this.player.clearTint();
+    this.flouActif = false; // Désactiver le flou
+    this.postProcess.removeBlur(); // Retirer l'effet de flou
 
     // Supprimer le flou
     document.body.style.filter = "none";
@@ -198,20 +193,17 @@ for (let i = 0; i < nombreBouteilles; i++) {
     this.nombreCollisions = 0;
   }
 
-  // Fonction pour réinitialiser le joueur au début
-  reinitialiserJoueur() {
-    this.gameOver = false;
-    this.physics.resume();
-    this.player.setPosition(50, 350); // Change cette position selon ton spawn
-    this.player.setVelocity(0, 0);
-    this.player.clearTint(); // Enlève la couleur rouge
 
-    // Supprimer le message de mort s'il existe
-    if (this.messageMort) {
-      this.messageMort.destroy();
-      this.messageMort = null;
+
+  afficherMessage(text) {
+    if (this.message) {
+        this.message.destroy(); // Supprime le message précédent s'il existe
     }
-  }
+    this.message = this.add.text(400, 300, text, {
+        font: '32px Arial',
+        fill: '#fff'
+    }).setOrigin(0.5);
+}
 
 
   afficherMessageAmi(player, perso3) {

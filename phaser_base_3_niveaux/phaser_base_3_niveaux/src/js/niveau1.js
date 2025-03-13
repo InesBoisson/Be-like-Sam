@@ -14,6 +14,7 @@ export default class Niveau1 extends Phaser.Scene {
     this.load.image('alcoholBottle', 'src/assets/alcohol_bottle.png'); // Image de bouteille d'alcool
     this.load.image('wineGlass', 'src/assets/wine_glass.png'); // Image de verre de vin
     this.load.image('waterBottle', 'src/assets/water_bottle.png'); // Image de bouteille d'eau
+    this.load.audio('backgroundMusic', 'src/assets/Crazy_Frog.mp3'); // Assurez-vous que le chemin est correct
 
     // chargement de la carte
     // Charger les images des tilesets
@@ -53,7 +54,8 @@ export default class Niveau1 extends Phaser.Scene {
 
     Bar.setCollisionByProperty({ estSolide: true });
 
-
+    this.music = this.sound.add('backgroundMusic'); // Ajouter la musique
+    this.music.play({ loop: true }); // Jouer la musique en boucle
 
     // Créer le personnage
     this.player = this.physics.add.sprite(300, 350, 'player');
