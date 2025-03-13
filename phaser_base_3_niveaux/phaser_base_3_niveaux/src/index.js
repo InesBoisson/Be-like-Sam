@@ -7,8 +7,7 @@ import niveau2 from "/src/js/niveau2.js";
 import niveau3 from "/src/js/niveau3.js";
 import Dialogue from "/src/js/Dialogue.js"; // Vérifie bien ce chemin
 
-let globalScore = 0;
-
+window.globalScore = 0;
 
 // configuration générale du jeu
 const config = {
