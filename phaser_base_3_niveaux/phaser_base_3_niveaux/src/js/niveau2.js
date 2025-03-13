@@ -13,6 +13,8 @@ export default class niveau2 extends Phaser.Scene {
     this.load.image("Tile_52", "src/assets/Tile_52.png");
     this.load.image("WorldSheetNew", "src/assets/WorldSheetNew.png");
     this.load.image("bouteille", "src/assets/alcohol_bottle.png")
+    this.load.audio('backgroundMusic2', 'src/assets/Brazil.mp3'); // Assurez-vous que le chemin est correct
+
 
 
     // chargement de la carte
@@ -46,6 +48,10 @@ export default class niveau2 extends Phaser.Scene {
     const tileset3 = carteDuNiveau.addTilesetImage("Tile_52", "Tile_52");
     const tileset4 = carteDuNiveau.addTilesetImage("WorldSheetNew", "WorldSheetNew");
 
+    this.musique_de_fond2 = this.sound.add('backgroundMusic2', { loop: true, volume: 0.5 });
+    this.time.delayedCall(500, () => {
+    this.musique_de_fond2.play();
+    });
 
     // chargement du calque BackrgoundArbres
     const BackrgoundArbres = carteDuNiveau.createLayer(
@@ -163,6 +169,7 @@ export default class niveau2 extends Phaser.Scene {
       player.anims.play("anim_face");
       this.afficherMessage("Vous avez trop bu ! Game Over !");
       this.postProcess.addBlur(10);
+      this.musique_de_fond2.stop()
 
   
       // Redémarrer la scène après 3 secondes
@@ -231,6 +238,7 @@ export default class niveau2 extends Phaser.Scene {
           this.message = null;
         }
         // Retour au menu après que le message a disparu
+        this.musique_de_fond2.stop();
         this.scene.start("niveau3"); // Assurez-vous que "menu" est bien le nom de votre scène de menu
       });
     }
@@ -278,6 +286,7 @@ export default class niveau2 extends Phaser.Scene {
 
       // Redémarrer la scène après 500 ms
       this.time.delayedCall(2000, () => {
+        this.musique_de_fond2.stop();
         this.scene.restart();
       });
 
