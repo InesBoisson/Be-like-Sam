@@ -248,7 +248,7 @@ afficherMessageAmi(player, perso3) {
             fontFamily: "Arial",
         }).setOrigin(0.5);
      
-      this.time.delayedCall(5000, () => {
+      this.time.delayedCall(3000, () => {
         // Retour au menu après que le message a disparu
         this.musique_de_fond2.stop();
         this.physics.pause();

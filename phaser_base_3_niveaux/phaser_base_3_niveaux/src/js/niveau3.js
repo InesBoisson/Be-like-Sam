@@ -66,7 +66,7 @@ export default class niveau3 extends Phaser.Scene {
     this.scoreText.setText('Score: ' + this.score);
     const messageText = this.add.text(400, 350, message, {
       font: "18px Arial",
-      fill: "#ff0000"
+      fill: '#fff'
     }).setOrigin(0.5, 0.5);
     this.input.enabled = false;
     this.time.delayedCall(1000, () => {
@@ -110,7 +110,7 @@ export default class niveau3 extends Phaser.Scene {
     this.scoreText.setText('Score: ' + this.score);
     const messageText = this.add.text(400, 350, message, {
       font: "18px Arial",
-      fill: "#ff0000"
+      fill: '#fff'
     }).setOrigin(0.5, 0.5);
     this.input.enabled = false;
     this.time.delayedCall(1000, () => {
@@ -144,7 +144,7 @@ export default class niveau3 extends Phaser.Scene {
     // Afficher le message temporaire
     const messageText = this.add.text(400, 350, message, {
       font: "18px Arial",
-      fill: "#ff0000"
+      fill: '#fff'
     }).setOrigin(0.5, 0.5);
 
     // Désactiver les interactions pour éviter de cliquer plusieurs fois
