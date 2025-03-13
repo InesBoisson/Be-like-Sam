@@ -114,16 +114,18 @@ export default class niveau2 extends Phaser.Scene {
     this.groupe_bouteilles = this.physics.add.group();
 
     // Génération aléatoire des bouteilles
-    let nombreBouteilles = 7; // Nombre de bouteilles à générer
-    for (let i = 0; i < nombreBouteilles; i++) {
-        let x = Phaser.Math.Between(100, 3000); // Position X aléatoire
-        let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
+let nombreBouteilles = 7; // Nombre de bouteilles à générer
+for (let i = 0; i < nombreBouteilles; i++) {
+    let x = Phaser.Math.Between(100, 3000); // Position X aléatoire
+    let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
 
-      let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
-      bouteille.setImmovable(true); // La bouteille reste fixe
-      bouteille.body.setEnable(true); // Force l'activation du body
+    let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
+    bouteille.setImmovable(true); // La bouteille reste fixe
+    bouteille.body.setEnable(true); // Active le body de la bouteille
+    bouteille.setBounce(0.5); // Ajoute du rebond pour éviter qu'elle soit bloquée
 
-    }
+    console.log(`Bouteille placée à x: ${x}, y: ${y}`); // Vérifier si elles apparaissent bien
+}
     // Ajout des collisions entre les bouteilles et les plateformes
     this.physics.add.collider(this.groupe_bouteilles, Plateformes);
 
@@ -136,7 +138,7 @@ export default class niveau2 extends Phaser.Scene {
 
   // Fonction déclenchée lorsque le joueur touche une bouteille
   chocAvecBouteille(player, bouteille) {
-    this.nombreCollisions++;
+    console.log("Collision détectée !");
     this.nombreCollisions++;
 
     if (this.nombreCollisions === 1) {
