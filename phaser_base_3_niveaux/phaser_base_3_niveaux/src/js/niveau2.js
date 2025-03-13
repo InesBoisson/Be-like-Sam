@@ -113,9 +113,9 @@ export default class niveau2 extends Phaser.Scene {
     this.groupe_bouteilles = this.physics.add.group();
 
     // Génération aléatoire des bouteilles
-    let nombreBouteilles = 5; // Nombre de bouteilles à générer
+    let nombreBouteilles = 10; // Nombre de bouteilles à générer
     for (let i = 0; i < nombreBouteilles; i++) {
-        let x = Phaser.Math.Between(100, 1200); // Position X aléatoire
+        let x = Phaser.Math.Between(100, 2200); // Position X aléatoire
         let y = Phaser.Math.Between(100, 500); // Position Y aléatoire
 
         let bouteille = this.groupe_bouteilles.create(x, y, "bouteille");
